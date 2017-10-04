@@ -1,8 +1,8 @@
 # Image Transformer Project
 
-This is just a basic typescript project configuration and VS code setup.
+This is just a basic typescript project configuration and VS Code setup.
 
-> I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one. 
+> I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
 
 ## Working:
 
@@ -16,7 +16,7 @@ This is just a basic typescript project configuration and VS code setup.
 
 * Decide where to do the image processing (options Node, browser, both?). Decode/Encode image? If browser only, this can be done with Canvas. For Node, I have not see a way to do this without using an external library.
 * If in the browser, Production-ize Webpack config to build proper *production worthy* bundles that include split and hashed bundles, compression, etc.
-* Build a function to take array of image values and run. transformations from the transformation lib.
+* Build a function to take array of image RGB values and run transformations from the transformation lib.
 * Build, document and test API for transformations lib.
 * Build, document and test a user interface.
 

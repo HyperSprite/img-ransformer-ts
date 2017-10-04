@@ -1,43 +1,22 @@
 {
-  "name": "img-transformation",
-  "version": "1.0.0",
-  "description": "transform an image",
-  "main": "index.js",
-  "scripts": {
-    "test": "nodemon --exec 'jest'",
-    "tsc": "tsc",
-    "public": "nodemon -e html,css --watch src/public --exec 'copyfiles -u 2 src/public/**/*.html src/**/*.css dist/'",
-    "start": "webpack-dev-server",
-    "dev": "concurrently 'npm run public' 'npm run start'",
-    "serve": "cd ./dist && http-server"
+  "name": "img-transformation-ts",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
-  },
-  "author": "Christopher Dunavan",
-  "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^21.1.1",
-    "concurrently": "^3.5.0",
-    "copyfiles": "^1.2.0",
-    "http-server": "^0.10.0",
-    "jest": "^21.2.1",
-    "ts-jest": "^21.0.1",
-    "ts-loader": "^2.3.7",
-    "tslint": "^5.7.0",
-    "tslint-config-airbnb": "^5.3.0",
-    "typescript": "^2.5.3",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "@types/jest": "^21.1.2",
+    "@types/node": "^8.0.32",
+    "@types/react": "^16.0.9",
+    "@types/react-dom": "^16.0.0",
+    "react-scripts-ts": "2.7.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
   }
 }

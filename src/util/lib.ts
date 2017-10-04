@@ -31,7 +31,7 @@ lib.rgbValue = (num: number) => {
  *   and returns a sigle number value between 0 and 255.
  * Returns -1 on any error
  */
-lib.rgbToGrayscale = (rgb: [ number, number, number ], option = 'luminosity'): number => {
+lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
   let result = -1;
   
   /**

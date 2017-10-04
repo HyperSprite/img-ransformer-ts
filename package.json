@@ -6,7 +6,10 @@
   "scripts": {
     "test": "nodemon --exec 'jest'",
     "tsc": "tsc",
-    "dev": "nodemon ./dist/index.js"
+    "html": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "start": "webpack-dev-server",
+    "dev": "nodemon ./dist/index.js",
+    "serve": "cd ./dist && http-server"
   },
   "jest": {
     "transform": {
@@ -25,10 +28,15 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^21.1.1",
+    "copyfiles": "^1.2.0",
+    "http-server": "^0.10.0",
     "jest": "^21.2.1",
     "ts-jest": "^21.0.1",
+    "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
     "tslint-config-airbnb": "^5.3.0",
-    "typescript": "^2.5.3"
+    "typescript": "^2.5.3",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
   }
 }

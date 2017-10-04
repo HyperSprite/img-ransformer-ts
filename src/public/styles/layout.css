@@ -1,0 +1,27 @@
+@import url("https://necolas.github.io/normalize.css/7.0.0/normalize.css");
+
+html,
+body {
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.headline {
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.main-left {
+
+}
+
+.main-right {
+
+}

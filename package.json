@@ -6,9 +6,9 @@
   "scripts": {
     "test": "nodemon --exec 'jest'",
     "tsc": "tsc",
-    "html": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "public": "nodemon -e html,css --watch src/public --exec 'copyfiles -u 2 src/public/**/*.html src/**/*.css dist/'",
     "start": "webpack-dev-server",
-    "dev": "nodemon ./dist/index.js",
+    "dev": "concurrently 'npm run public' 'npm run start'",
     "serve": "cd ./dist && http-server"
   },
   "jest": {
@@ -28,6 +28,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^21.1.1",
+    "concurrently": "^3.5.0",
     "copyfiles": "^1.2.0",
     "http-server": "^0.10.0",
     "jest": "^21.2.1",

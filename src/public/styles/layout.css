@@ -19,9 +19,13 @@ body {
 }
 
 .main-left {
-
+  margin: 1em;
+  width: 40%;
+  height: 30%;
 }
 
 .main-right {
-
+  margin: 1em;
+  width: 40%;
+  height: 30%;
 }

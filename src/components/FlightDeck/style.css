@@ -1,0 +1,10 @@
+
+.flight-deck-main {
+  background: #BDBDBD;
+  border-radius: 4px;
+  padding: 0.5em;
+}
+
+.button.ui.fluid.button {
+  margin-top: 0.5em;
+}

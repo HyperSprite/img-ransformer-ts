@@ -9,16 +9,32 @@ export interface GrayFilter {
  * rgbToGrayscale uses math from the Gimp RGB to Grayscale help docs
  * options match lightness, average, and luminosity.
  * see https://docs.gimp.org/2.8/en/gimp-tool-desaturate.html
- * redfilter is my own creation.
+ * red_filter is my own creation.
  * these filters only act on pixels RGB value.
+ * Note, when adding new filters '_' will be replaced by ' ' for select.
  */
+
 const grayFilter: GrayFilter = {
   lightness: ((rgb: RGB) => (Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2)),
   average: (rgb: RGB) => (rgb[0] + rgb[1] + rgb[2]) / 3,
   luminosity: (rgb: RGB) => ((0.21 * rgb[0]) + (0.72 * rgb[1]) + (0.07 * rgb[2])),
-  redfilter: (rgb: RGB) => ((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2])),
+  red_filter: (rgb: RGB) => ((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2])),
 };
 
+/**
+ * Takes a string and returns it with first letter Cap and spaces replace underscores
+ */
+const capAndSplit = (word: string) => {
+  return `${word.charAt(0).toUpperCase()}${word.slice(1).split('_').join(' ')}`;
+};
+/**
+ * grayFilterValues is to return an array of options for the grayFilter Select.
+ * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
+ */
+
+lib.grayFilterValues = () => Object.keys(grayFilter).map((gF) => {
+  return { key: gF, value: gF, text: capAndSplit(gF) };
+});
 /** 
  * returns false if supplied number is out of range or not a number
  */

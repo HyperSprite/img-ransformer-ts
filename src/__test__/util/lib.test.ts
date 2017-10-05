@@ -30,8 +30,8 @@ describe('lib.rgbToGrayscale converts an array containing RGB to Grayscale based
   it('args ([49, 87, 35], \'luminosity\')should expect 75 using \'luminosity\'', () => {
     expect(lib.rgbToGrayscale([49, 87, 35], 'luminosity')).toBe(75);
   });
-  it('args ([87, 49, 35]), \'redfilter\') should expect 75 using \'redfilter\'', () => {
-    expect(lib.rgbToGrayscale([87, 49, 35], 'redfilter')).toBe(75);
+  it('args ([87, 49, 35]), \'red_filter\') should expect 75 using \'red_filter\'', () => {
+    expect(lib.rgbToGrayscale([87, 49, 35], 'red_filter')).toBe(75);
   });
   it('args ([49, 87, 35]<no option>) should expect 75 using luminosity', () => {
     expect(lib.rgbToGrayscale([49, 87, 35])).toBe(75);
@@ -50,5 +50,14 @@ describe('lib.rgbToGrayscale converts an array containing RGB to Grayscale based
   });
   it('args (\'someString\', \'average\') should expect -1', () => {
     expect(lib.rgbToGrayscale('someString', 'avereage')).toBe(-1);
+  });
+});
+
+describe('lib.grayFilterValues returns an array of options for the grayFilter Select.', () => {
+  it('should expect \'Red filter\'', () => {
+    expect(lib.grayFilterValues().toString()).toContain(
+      // tslint:disable-next-line
+      {"key": "red_filter", "text": "Red filter", "value": "red_filter"}
+    );
   });
 });

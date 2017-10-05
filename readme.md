@@ -1,6 +1,6 @@
 # Image Transformer Project
 
-This is just a basic typescript project configuration and VS Code setup.
+This is create-react-app/typescript project configuration and VS Code setup.
 
 > I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
 
@@ -10,12 +10,10 @@ This is just a basic typescript project configuration and VS Code setup.
 * Webpack is bundling all TS files into a single bundle. Does not do hot reloading.
 * Jest testing is working.
 * Single pixel RGB to Grayscale function.
-* Web page displays with CSS and JavaScript connected.
+* Web page displays with CSS and React connected.
 
 ## Open Tasks:
 
-* Decide where to do the image processing (options Node, browser, both?). Decode/Encode image? If browser only, this can be done with Canvas. For Node, I have not see a way to do this without using an external library.
-* If in the browser, Production-ize Webpack config to build proper *production worthy* bundles that include split and hashed bundles, compression, etc.
 * Build a function to take array of image RGB values and run transformations from the transformation lib.
 * Build, document and test API for transformations lib.
 * Build, document and test a user interface.
@@ -36,15 +34,15 @@ npm run dev
 
 ## Dependencies:
 
-* @types/jest: types for jest.
-* concurrently: see package.json scripts, allows for concurrently. * running webpack server and nodemon file copy.
-* copyfiles: see package.json scripts, used for cross platform file copy.
-* http-server: was used for a dev http server, no longer needed with webpack but left for testing final build.
-* jest: Testing library.
-* ts-jest: TypeScript plugin for Jest.
+* @types/jest, @types/node, @types/react, @types/react-dom: typings for various modules.
+* react-scripts-ts: create-react-app additions TypeScript.
 * ts-loader: TypeScript loader for webpack.
 * tslint: TypeScript linting.
 * tslint-config-airbnb: TypeScript AirBnB style guide for tslint.
 * typescript: TypeScript (no global TypeScript installed).
-* webpack: Installed to handle bundling of modules.
-* webpack-dev-server: Installed for dev environment.
+
+
+## Notes:
+
+* I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in **basic-ts-no-create-react-app** branch.
+* Random Error "Cannot find module react" after creating a new app with create-react-app, run ```npm install``` inside the just created dir and it will finish the install properly.

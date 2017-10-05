@@ -11,6 +11,8 @@ This is create-react-app/typescript project configuration and VS Code setup.
 * Jest testing is working.
 * Single pixel RGB to Grayscale function.
 * Web page displays with CSS and React connected.
+* Mock up complete using Semantic-ui.
+* Select using data from lib.grayFilter for values.
 
 ## Open Tasks:
 
@@ -41,12 +43,12 @@ npm run dev
 * tslint-config-airbnb: TypeScript AirBnB style guide for tslint.
 * typescript: TypeScript (no global TypeScript installed).
 
+![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)
 
 ## Notes:
 
 * I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in **basic-ts-no-create-react-app** branch.
 * Random Error: "Cannot find module react" after creating a new app with create-react-app, run ```npm install``` inside the just created dir and it will finish the install properly.
-* Decisions Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
+* Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
 * Random Error: import fails with 'no default export' was resolved by updating tsconfig with ```"allowSyntheticDefaultImports": true,``` see [import fails with 'no default export' #8](https://github.com/Microsoft/TypeScript-React-Starter/issues/8)
-
-
+* removed ```"tslint-react",``` from tslint rules as it was redundant.

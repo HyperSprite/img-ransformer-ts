@@ -37,6 +37,7 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
 
   renderCanvas() {
     const ctx = this.canvasFile.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     const imageObject = document.createElement('img');
     imageObject.src = localStorage.getItem(DROPPED_FILE);
     imageObject.onload = () => {
@@ -45,9 +46,21 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
         height: 300,
         imageReady: true,
       });
-      ctx.drawImage(imageObject as HTMLImageElement, 0, 0);
+      // scaling canvas
+      const scaleCanvas = Math.min(
+        (this.canvasFile.width / imageObject.width),(this.canvasFile.height / imageObject.height),
+      );    
+      const sw1 = imageObject.width * scaleCanvas;
+      const sh1 = imageObject.height * scaleCanvas;
+      ctx.drawImage(imageObject,(this.canvasFile.width - sw1) / 2, (this.canvasFile.height - sh1) / 2,sw1,sh1);
+      // fill canvas
+      // const imgX = 0;
+      // const imgY = 0;
+      // ctx.drawImage(imageObject, imgX, imgY, this.canvasFile.width, this.canvasFile.height);
+      // just load canvas
+      // ctx.drawImage(imageObject as HTMLImageElement, 0, 0);
     };
-    console.log('renderCanvas', imageObject);
+    console.log('renderCanvas', ctx);
   }
 
   componentDidMount() {

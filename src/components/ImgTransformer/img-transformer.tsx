@@ -20,8 +20,6 @@ export interface State {
   streamedFile: string;
 }
 
-
-
 class ImgTransformer extends React.Component<Props, State>
 {
   constructor(props: any) {
@@ -39,23 +37,20 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   setImage(reader: FileReader, file: File) {
-    
     localStorage.setItem(DROPPED_FILE, reader.result);
     this.setState({ droppedFile: file.name, streamedFile: file.name });
-    console.log('setImage reader', reader);
-
+    // console.log('setImage reader', reader);
   }
 
   handleImageSelect(accepted: any) {
     const reader  = new FileReader();
-    console.log(accepted[0]);
+    // console.log(accepted[0]);
     if (accepted && accepted[0]) {
       reader.onload = () => {
-        
         this.setImage(reader, accepted[0]);
       };
       reader.readAsDataURL(accepted[0]);
-      console.log('handleImageSelect reader', reader);
+      // console.log('handleImageSelect reader', reader);
     }
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
-// import image from '../../image';
+import ImageFile from '../../image';
 
-import { DROPPED_FILE } from '../../constants';
+import { DEFAULT_IMAGE_NAME, DROPPED_FILE } from '../../constants';
 import CanvasFile from '../CanvasFile';
 import CanvasStream from '../CanvasStream';
 import HeaderBlock from '../HeaderBlock';
@@ -32,8 +32,11 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   componentWillMount() {
-    // change this once we have canvas working
+    // First page load
     localStorage.clear();
+    // Set the default image
+    localStorage.setItem(DROPPED_FILE, ImageFile);
+    this.setState({ droppedFile: DEFAULT_IMAGE_NAME, streamedFile:  DEFAULT_IMAGE_NAME });
   }
 
   setImage(reader: FileReader, file: File) {
@@ -55,9 +58,12 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   render() {
+    const { droppedFile } = this.state;
+    const imageTitle = droppedFile !== DEFAULT_IMAGE_NAME ? droppedFile : '';
+
     return (
       <div>
-        <HeaderBlock title={this.state.droppedFile } />
+        <HeaderBlock title={imageTitle} />
         <div className="it-main">
           <Grid stackable columns={2} >
             <Grid.Column>

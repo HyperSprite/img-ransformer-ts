@@ -12,17 +12,22 @@ export interface Props {
 // TODO: research this type.
 let dropzoneRef: any;
 
+// TODO build 'rejected' handler
+// Check file size local storage limited to 10mb, converted base64 gets to that in about 3.5
+// Check file mime type, no sense letting people try loading an exe. 
 const DropButton: React.StatelessComponent<Props | {}> = ({
   dropped,
 }: Props) => (
   <div>
-    <Button primary fluid onClick={() => { dropzoneRef.open(); }}>Select Image</Button>
+    
     <Dropzone
       className="dropzone"
       multiple={false}
       ref={(node) => { dropzoneRef = node; }}
       onDrop={(accepted, rejected) => { dropped(accepted); }}
-    />
+    >
+      <Button primary fluid >Select Image</Button>
+    </Dropzone>
   </div>
 );
 

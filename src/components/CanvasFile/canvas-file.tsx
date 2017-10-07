@@ -3,7 +3,7 @@ import { Container } from 'semantic-ui-react';
 
 import { DROPPED_FILE } from '../../constants';
 
-// import CanvasComponent from './canvas';
+// TODO: Make canvas responsive
 
 export interface CanvasFileProps {
   /** Incoming image file */
@@ -46,7 +46,7 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
         height: 300,
         imageReady: true,
       });
-      // scaling canvas
+      // scaling image to fit canvas
       const scaleCanvas = Math.min(
         (this.canvasFile.width / imageObject.width),(this.canvasFile.height / imageObject.height),
       );    

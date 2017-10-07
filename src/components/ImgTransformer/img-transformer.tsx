@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
+// import image from '../../image';
+
 import { DROPPED_FILE } from '../../constants';
 import CanvasFile from '../CanvasFile';
 import CanvasStream from '../CanvasStream';
@@ -36,10 +38,12 @@ class ImgTransformer extends React.Component<Props, State>
     localStorage.clear();
   }
 
-  setImage(reader: FileReader) {
+  setImage(reader: FileReader, file: File) {
     
     localStorage.setItem(DROPPED_FILE, reader.result);
-    console.log('reader', reader);
+    this.setState({ droppedFile: file.name, streamedFile: file.name });
+    console.log('setImage reader', reader);
+
   }
 
   handleImageSelect(accepted: any) {
@@ -48,12 +52,11 @@ class ImgTransformer extends React.Component<Props, State>
     if (accepted && accepted[0]) {
       reader.onload = () => {
         
-        this.setImage(reader);
+        this.setImage(reader, accepted[0]);
       };
       reader.readAsDataURL(accepted[0]);
-      console.log('reader', reader);
+      console.log('handleImageSelect reader', reader);
     }
-    this.setState({ droppedFile: accepted[0].name, streamedFile: accepted[0].name });
   }
 
   render() {

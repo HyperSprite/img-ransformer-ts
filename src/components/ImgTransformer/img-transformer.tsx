@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
+import { DROPPED_FILE } from '../../constants';
 import CanvasFile from '../CanvasFile';
 import CanvasStream from '../CanvasStream';
 import HeaderBlock from '../HeaderBlock';
@@ -12,10 +13,12 @@ export interface Props {}
 
 export interface State {
   /** File from the DropButton component */
-  droppedFile: File | undefined;
+  droppedFile: string;
   /** File from the DropButton component */
-  streamedFile: File | undefined;
+  streamedFile: string;
 }
+
+
 
 class ImgTransformer extends React.Component<Props, State>
 {
@@ -28,15 +31,35 @@ class ImgTransformer extends React.Component<Props, State>
     this.handleImageSelect = this.handleImageSelect.bind(this);
   }
 
+  componentWillMount() {
+    // change this once we have canvas working
+    localStorage.clear();
+  }
+
+  setImage(reader: FileReader) {
+    
+    localStorage.setItem(DROPPED_FILE, reader.result);
+    console.log('reader', reader);
+  }
+
   handleImageSelect(accepted: any) {
+    const reader  = new FileReader();
     console.log(accepted[0]);
-    this.setState({ droppedFile: accepted[0], streamedFile: accepted[0] });
+    if (accepted && accepted[0]) {
+      reader.onload = () => {
+        
+        this.setImage(reader);
+      };
+      reader.readAsDataURL(accepted[0]);
+      console.log('reader', reader);
+    }
+    this.setState({ droppedFile: accepted[0].name, streamedFile: accepted[0].name });
   }
 
   render() {
     return (
       <div>
-        <HeaderBlock title={this.state.droppedFile && this.state.droppedFile.name } />
+        <HeaderBlock title={this.state.droppedFile } />
         <div className="it-main">
           <Grid stackable columns={2} >
             <Grid.Column>

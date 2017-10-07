@@ -3,11 +3,11 @@ import { Container, Image } from 'semantic-ui-react';
 
 export interface Props {
   /** Incoming image file */
-  streamedFile: File | undefined;
+  streamedFile?: string;
 }
 
 const defaultProps = {
-  streamedFile: undefined,
+  // streamedFile: undefined,
 };
 
 const CanvasFile: React.StatelessComponent<Props | {}> = ({
@@ -15,11 +15,11 @@ const CanvasFile: React.StatelessComponent<Props | {}> = ({
 }: Props) => (
   <Container textAlign="center">
     {streamedFile ? (
-      <h3>{streamedFile.name}</h3>
+      <h3>{streamedFile}</h3>
     ) : (
       <Image src="/assets/image.png" />
     )}
-    Original
+    Transformed
   </Container>
 );
 

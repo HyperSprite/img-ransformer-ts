@@ -14,7 +14,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
@@ -25,6 +25,7 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "*.scratch.*"
   ]
 }

@@ -6,8 +6,10 @@ import { DROPPED_FILE } from '../../constants';
 // TODO: Make canvas responsive
 
 export interface CanvasFileProps {
+  onCanvasFile: (any: any) => void;
   /** Incoming image file */
   droppedFile: string;
+  
 }
 
 interface CanvasFileState {
@@ -22,12 +24,9 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
   public props: CanvasFileProps;
   public state: CanvasFileState;
   private canvasFile: HTMLCanvasElement;
-  // HTMLImageElement
-  static defaultProps: any;
   constructor(props: CanvasFileProps) {
     super(props);
     this.state = {
-      // ctx: null,
       droppedFile: '',
       width: 300,
       height: 300,
@@ -59,19 +58,24 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
       // ctx.drawImage(imageObject, imgX, imgY, this.canvasFile.width, this.canvasFile.height);
       // just load canvas
       // ctx.drawImage(imageObject as HTMLImageElement, 0, 0);
+      // get ImageData from canvas and pass it back to parent
+      this.props.onCanvasFile(ctx.getImageData(0, 0, this.state.width, this.state.height));
     };
-    console.log('renderCanvas', ctx);
   }
 
   componentDidMount() {
-    this.renderCanvas();
+    this.setState({ droppedFile: this.props.droppedFile }, this.renderCanvas);
   }
 
   componentDidUpdate() {
     if (this.state.droppedFile !== this.props.droppedFile) {
-      this.setState({ imageReady: false });
-      this.renderCanvas();
-      this.setState({ droppedFile: this.props.droppedFile });
+      this.setState(
+        {
+          droppedFile: this.props.droppedFile,
+          imageReady: false,
+        },
+        this.renderCanvas,
+      );
     }
   }
 
@@ -87,7 +91,5 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     );
   }
 }
-
-// CanvasFile.defaultProps = defaultProps;
 
 export default CanvasFile;

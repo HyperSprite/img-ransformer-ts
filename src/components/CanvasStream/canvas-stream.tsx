@@ -1,28 +1,63 @@
 import React from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 
-export interface Props {
+// TODO: Make canvas responsive
+
+export interface CanvasStreamedProps {
   /** Incoming image file */
-  streamedFile?: string;
+  streamedFile?: ImageData;
 }
 
-const defaultProps = {
-  // streamedFile: undefined,
-};
+interface canvasStreamedState {
+  streamedFile: ImageData | undefined;
+  width: number;
+  height: number;
+  imageReady: boolean;
+}
 
-const CanvasFile: React.StatelessComponent<Props | {}> = ({
-  streamedFile,
-}: Props) => (
-  <Container textAlign="center">
-    {streamedFile ? (
-      <h3>{streamedFile}</h3>
-    ) : (
-      <Image src="/assets/image.png" />
-    )}
-    Transformed
-  </Container>
-);
+class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreamedState> {
+  public props: CanvasStreamedProps;
+  public state: canvasStreamedState;
+  private canvasStreamed: HTMLCanvasElement;
+  constructor(props: CanvasStreamedProps) {
+    super(props);
+    this.state = {
+      streamedFile: undefined,
+      width: 300,
+      height: 300,
+      imageReady: false,
+    };
+  }
 
-CanvasFile.defaultProps = defaultProps;
+  /**
+   * renderCanvas takes ImageData { Unit8ClampedArray, width, height }
+   * This initially is a copy of the CanvasFile canvas
+   */
+  renderCanvas() {
+    if (this.state.streamedFile) {
+      const ctx = this.canvasStreamed.getContext('2d');
+      console.log('canvasStreamed renderCanvas', this.state.streamedFile);
+      ctx.putImageData(this.state.streamedFile, 0, 0);
+    }
+  }
 
-export default CanvasFile;
+  componentDidUpdate() {
+    if (this.state.streamedFile !== this.props.streamedFile) {
+      this.setState({ streamedFile: this.props.streamedFile }, this.renderCanvas);
+    }
+  }
+
+  render() {
+
+    return (
+      <Container textAlign="center">
+        <div>
+          <canvas ref={c => this.canvasStreamed = c} width={this.state.width} height={this.state.height} />
+        </div>
+        Transformed
+      </Container>
+    );
+  }
+}
+
+export default canvasStreamed;

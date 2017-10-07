@@ -16,8 +16,8 @@ export interface Props {}
 export interface State {
   /** File from the DropButton component */
   droppedFile: string;
-  /** File from the DropButton component */
-  streamedFile: string;
+  /** Image data from CanvasFile to CanvasStreamed */
+  streamedFile: ImageData | undefined;
 }
 
 class ImgTransformer extends React.Component<Props, State>
@@ -29,31 +29,36 @@ class ImgTransformer extends React.Component<Props, State>
       streamedFile: undefined,
     };
     this.handleImageSelect = this.handleImageSelect.bind(this);
+    this.handleCanvasFileToArray = this.handleCanvasFileToArray.bind(this);
   }
 
   componentWillMount() {
-    // First page load
+    /** First page load, clear any existing local storage */
     localStorage.clear();
-    // Set the default image
+    /** Set the default image */
     localStorage.setItem(DROPPED_FILE, ImageFile);
-    this.setState({ droppedFile: DEFAULT_IMAGE_NAME, streamedFile:  DEFAULT_IMAGE_NAME });
+    this.setState({ droppedFile: DEFAULT_IMAGE_NAME });
   }
 
   setImage(reader: FileReader, file: File) {
     localStorage.setItem(DROPPED_FILE, reader.result);
-    this.setState({ droppedFile: file.name, streamedFile: file.name });
+    this.setState({ droppedFile: file.name });
     // console.log('setImage reader', reader);
   }
 
-  handleImageSelect(accepted: any) {
+  handleImageSelect(accepted: File) {
     const reader  = new FileReader();
-    // console.log(accepted[0]);
     if (accepted && accepted[0]) {
       reader.onload = () => {
         this.setImage(reader, accepted[0]);
       };
       reader.readAsDataURL(accepted[0]);
-      // console.log('handleImageSelect reader', reader);
+    }
+  }
+
+  handleCanvasFileToArray(CanvasFileImageData: any) {
+    if (CanvasFileImageData) {
+      this.setState({ streamedFile: CanvasFileImageData });
     }
   }
 
@@ -67,7 +72,10 @@ class ImgTransformer extends React.Component<Props, State>
         <div className="it-main">
           <Grid stackable columns={2} >
             <Grid.Column>
-              <CanvasFile droppedFile={this.state.droppedFile} />
+              <CanvasFile
+                droppedFile={this.state.droppedFile}
+                onCanvasFile={this.handleCanvasFileToArray}
+              />
             </Grid.Column>
             <Grid.Column>
               <CanvasStream streamedFile={this.state.streamedFile} />

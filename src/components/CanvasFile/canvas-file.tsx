@@ -1,15 +1,18 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
 
-import { DROPPED_FILE } from '../../constants';
-
 // TODO: Make canvas responsive
 
 export interface CanvasFileProps {
+  /** File to render in this Canvas */
+  originalFile?: any;
   onCanvasFile: (any: any) => void;
   /** Incoming image file */
   droppedFile: string;
-  
+  /** Sync width with ImgTransformer */
+  width: number;
+  /** Sync height with ImgTransformer */
+  height: number;
 }
 
 interface CanvasFileState {
@@ -28,8 +31,8 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     super(props);
     this.state = {
       droppedFile: '',
-      width: 400,
-      height: 400,
+      width: 300,
+      height: 300,
       imageReady: false,
     };
   }
@@ -38,11 +41,11 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     const ctx = this.canvasFile.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     const imageObject = document.createElement('img');
-    imageObject.src = localStorage.getItem(DROPPED_FILE);
+    imageObject.src = this.props.originalFile;
     imageObject.onload = () => {
       this.setState({
-        width: 400,
-        height: 400,
+        width: this.props.width,
+        height: this.props.height,
         imageReady: true,
       });
       // scaling image to fit canvas
@@ -53,18 +56,18 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
       const sh1 = imageObject.height * scaleCanvas;
       ctx.drawImage(imageObject,(this.canvasFile.width - sw1) / 2, (this.canvasFile.height - sh1) / 2,sw1,sh1);
       // fill canvas
-      // const imgX = 0;
-      // const imgY = 0;
-      // ctx.drawImage(imageObject, imgX, imgY, this.canvasFile.width, this.canvasFile.height);
-      // just load canvas
-      // ctx.drawImage(imageObject as HTMLImageElement, 0, 0);
-      // get ImageData from canvas and pass it back to parent
       this.props.onCanvasFile(ctx.getImageData(0, 0, this.state.width, this.state.height));
     };
   }
 
   componentDidMount() {
-    this.setState({ droppedFile: this.props.droppedFile }, this.renderCanvas);
+    this.setState(
+      {
+        droppedFile: this.props.droppedFile,
+        width: this.props.width,
+        height: this.props.height,
+      },
+      this.renderCanvas);
   }
 
   componentDidUpdate() {

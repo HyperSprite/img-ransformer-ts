@@ -72,14 +72,15 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
 };
 
 
-lib.handleGrayscale = (imageData: ImageData, option: string, width: number, height: number, callback: any) => {
+lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
+  const width = imageData.width;
+  const height = imageData.height;
   const newImage = new ImageData(width, height);
   newImage.data.set(imageData.data);
 
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
     const grey = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
-    // const grey = (0.2126 * data[i]) + (0.7152 * data[i + 1]) + (0.0722 * data[i + 2]);
     data[i] = grey;
     data[i + 1] = grey;
     data[i + 2] = grey;

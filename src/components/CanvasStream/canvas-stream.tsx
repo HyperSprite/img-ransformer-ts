@@ -6,6 +6,10 @@ import { Container } from 'semantic-ui-react';
 export interface CanvasStreamedProps {
   /** Incoming image file */
   streamedFile?: ImageData;
+  /** Sync width with ImgTransformer */
+  width: number;
+  /** Sync height with ImgTransformer */
+  height: number;
 }
 
 interface canvasStreamedState {
@@ -22,8 +26,8 @@ class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreame
     super(props);
     this.state = {
       streamedFile: undefined,
-      width: 400,
-      height: 400,
+      width: 300,
+      height: 300,
     };
   }
 
@@ -40,7 +44,13 @@ class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreame
 
   componentDidUpdate() {
     if (this.state.streamedFile !== this.props.streamedFile) {
-      this.setState({ streamedFile: this.props.streamedFile }, this.renderCanvas);
+      this.setState(
+        {
+          streamedFile: this.props.streamedFile,
+          width: this.props.width,
+          height: this.props.height,
+        },
+        this.renderCanvas);
     }
   }
 

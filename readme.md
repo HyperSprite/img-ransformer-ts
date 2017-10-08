@@ -9,16 +9,24 @@ This is create-react-app/typescript project configuration and VS Code setup.
 * TSlint is working with AirBnB style guide, properly producing both type and formatting errors when needed.
 * Webpack is bundling all TS files into a single bundle. Does not do hot reloading.
 * Jest testing is working.
-* Single pixel RGB to Grayscale function.
+* Single pixel RGB to Greyscale function.
 * Web page displays with CSS and React connected.
 * Mock up complete using Semantic-ui.
-* Select using data from lib.grayFilter for values.
+* Select using data from lib.greyFilter for values.
+* Drop or click "Select File" button working using Dropzone.
+* Load Original Canvas with chosen image, Load Transformed Canvas with copy for Original Canvas.
+* Apply a filter to Transformed Canvas. 
 
 ## Open Tasks:
 
 * Build a function to take array of image RGB values and run transformations from the transformation lib.
 * Build, document and test API for transformations lib.
 * Build, document and test a user interface.
+* Wire up "Save" button.
+* Fix Dropdown to reset on new image selection.
+* Scale Canvas to fit parent div.
+* Wire up "Reset Image" button to undo filters.
+* Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.  
 
 ## Install and run:
 
@@ -36,6 +44,8 @@ npm run dev
 
 ## Dependencies:
 
+* react-dropzone: Easy file upload with click or drop, see component DropButton.
+* semantic-ui-react: Style library, alternative to Bootstrap or Material.
 * @types/jest, @types/node, @types/react, @types/react-dom: typings for various modules.
 * react-scripts-ts: create-react-app additions TypeScript.
 * ts-loader: TypeScript loader for webpack.
@@ -47,7 +57,7 @@ npm run dev
 
 ## Notes:
 
-* I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in **basic-ts-no-create-react-app** branch.
+* I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in [**basic-ts-no-create-react-app**](https://github.com/HyperSprite/img-transformer-ts/tree/basic-ts-no-create-react-app) branch.
 * Random Error: "Cannot find module react" after creating a new app with create-react-app, run ```npm install``` inside the just created dir and it will finish the install properly.
 * Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
 * Random Error: import fails with 'no default export' was resolved by updating tsconfig with ```"allowSyntheticDefaultImports": true,``` see [import fails with 'no default export' #8](https://github.com/Microsoft/TypeScript-React-Starter/issues/8)

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
+import lib from '../../util/lib';
 import ImageFile from '../../image';
 
 import { DEFAULT_IMAGE_NAME, DROPPED_FILE } from '../../constants';
@@ -17,7 +18,15 @@ export interface State {
   /** File from the DropButton component */
   droppedFile: string;
   /** Image data from CanvasFile to CanvasStreamed */
-  streamedFile: ImageData | undefined;
+  streamedFile: ImageData | undefined | any;
+  /** Pristien Canvas Image */
+  pristineFIle: ImageData | undefined;
+  /** A fresh image on the Canvas */
+  pristine: boolean;
+  /** Canvas Width */
+  width: number;
+  /** Canvas Height */
+  height: number;
 }
 
 class ImgTransformer extends React.Component<Props, State>
@@ -27,9 +36,15 @@ class ImgTransformer extends React.Component<Props, State>
     this.state = {
       droppedFile: undefined,
       streamedFile: undefined,
+      pristineFIle: undefined,
+      width: 400,
+      height: 400,
+      pristine: true,
     };
     this.handleImageSelect = this.handleImageSelect.bind(this);
     this.handleCanvasFileToArray = this.handleCanvasFileToArray.bind(this);
+    this.handleMagicButton = this.handleMagicButton.bind(this);
+    this.handleGreyscaleOnChange = this.handleGreyscaleOnChange.bind(this);
   }
 
   componentWillMount() {
@@ -43,7 +58,6 @@ class ImgTransformer extends React.Component<Props, State>
   setImage(reader: FileReader, file: File) {
     localStorage.setItem(DROPPED_FILE, reader.result);
     this.setState({ droppedFile: file.name });
-    // console.log('setImage reader', reader);
   }
 
   handleImageSelect(accepted: File) {
@@ -56,9 +70,44 @@ class ImgTransformer extends React.Component<Props, State>
     }
   }
 
+  handleGreyscaleOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+    console.log('handleGreyscaleOnChange', data.value);
+    if (this.state.pristineFIle) {
+      const imageData = this.state.pristineFIle;
+
+      this.setState({
+        pristine: false,
+        streamedFile: lib.handleGrayscale(
+          imageData,
+          data.value,
+          this.state.width,
+          this.state.height,
+          (r: any) => r),
+      });
+    }
+  }
+
+
+  handleMagicButton() {
+    console.log('handleMagicButton');
+    if (this.state.streamedFile) {
+      const imageData = this.state.streamedFile;
+
+      this.setState({
+        pristine: false,
+        streamedFile: lib.handleGrayscale(
+          imageData,
+          'luminosity',
+          this.state.width,
+          this.state.height,
+          (r: any) => r),
+      });
+    }
+  }
+
   handleCanvasFileToArray(CanvasFileImageData: any) {
     if (CanvasFileImageData) {
-      this.setState({ streamedFile: CanvasFileImageData });
+      this.setState({ pristine: true, streamedFile: CanvasFileImageData, pristineFIle: CanvasFileImageData });
     }
   }
 
@@ -85,7 +134,12 @@ class ImgTransformer extends React.Component<Props, State>
             <Grid.Row>
               <Grid.Column width={2} />
               <Grid.Column width={12}>
-                <FlightDeck dropped={this.handleImageSelect} />
+                <FlightDeck
+                  dropped={this.handleImageSelect}
+                  magicOnClick={this.handleMagicButton}
+                  greyscaleOnChange={this.handleGreyscaleOnChange}
+                  pristine={this.state.pristine}
+                />
               </Grid.Column>
               <Grid.Column width={2} />
             </Grid.Row>

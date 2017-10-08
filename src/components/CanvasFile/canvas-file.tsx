@@ -28,8 +28,8 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     super(props);
     this.state = {
       droppedFile: '',
-      width: 300,
-      height: 300,
+      width: 400,
+      height: 400,
       imageReady: false,
     };
   }
@@ -41,8 +41,8 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     imageObject.src = localStorage.getItem(DROPPED_FILE);
     imageObject.onload = () => {
       this.setState({
-        width: 300,
-        height: 300,
+        width: 400,
+        height: 400,
         imageReady: true,
       });
       // scaling image to fit canvas

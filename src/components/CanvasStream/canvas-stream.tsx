@@ -12,7 +12,6 @@ interface canvasStreamedState {
   streamedFile: ImageData | undefined;
   width: number;
   height: number;
-  imageReady: boolean;
 }
 
 class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreamedState> {
@@ -23,9 +22,8 @@ class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreame
     super(props);
     this.state = {
       streamedFile: undefined,
-      width: 300,
-      height: 300,
-      imageReady: false,
+      width: 400,
+      height: 400,
     };
   }
 
@@ -36,7 +34,6 @@ class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreame
   renderCanvas() {
     if (this.state.streamedFile) {
       const ctx = this.canvasStreamed.getContext('2d');
-      console.log('canvasStreamed renderCanvas', this.state.streamedFile);
       ctx.putImageData(this.state.streamedFile, 0, 0);
     }
   }

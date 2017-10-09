@@ -69,7 +69,6 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
-    console.log('handleRGBFilterOnChange', data.value);
     if (this.state.pristineFIle) {
       const imageData = this.state.pristineFIle;
 
@@ -84,7 +83,6 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   handleMagicButton() {
-    console.log('handleMagicButton');
     if (this.state.streamedFile) {
       const imageData = this.state.streamedFile;
 
@@ -100,7 +98,6 @@ class ImgTransformer extends React.Component<Props, State>
 
   handleCanvasFileToArray(CanvasFileImageData: any) {
     if (CanvasFileImageData) {
-      console.log(CanvasFileImageData);
       this.setState({ pristine: true, streamedFile: CanvasFileImageData, pristineFIle: CanvasFileImageData });
     }
   }

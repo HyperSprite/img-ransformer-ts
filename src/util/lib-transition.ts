@@ -2,9 +2,7 @@ import _ from 'lodash';
 
 const libTr = <any>{};
 
-
-
-interface iDataObj {
+interface iImageData {
   width: number;
   height: number;
   data: [number];
@@ -14,12 +12,12 @@ interface iDataObj {
  * Flip an Array
  */
 
-libTr.flipArray = (dataObj: iDataObj) => {
+libTr.flipArray = (imageData: iImageData) => {
   const resArr = [];
   const rowArr = [];
-  const width = dataObj.width;
-  const height = dataObj.height;
-  const data = dataObj.data;
+  const width = imageData.width;
+  const height = imageData.height;
+  const data = imageData.data;
 
   let n = data.length;
   for (let i = 0; i < height; i += 1) {
@@ -34,12 +32,16 @@ libTr.flipArray = (dataObj: iDataObj) => {
   return { data: _.flatten(resArr), width: height, height: width };
 };
 
-libTr.rotateArray = (dataObj: iDataObj) => {
+/** 
+ * Rotates an Array
+ */
+
+libTr.rotateArray = (imageData: iImageData) => {
   const resArr = [];
   const rowArr = [];
-  const width = dataObj.width;
-  const height = dataObj.height;
-  const data = dataObj.data;
+  const width = imageData.width;
+  const height = imageData.height;
+  const data = imageData.data;
 
   let n = data.length;
   for (let i = 0; i < height; i += 1) {
@@ -51,7 +53,7 @@ libTr.rotateArray = (dataObj: iDataObj) => {
       resArr.push(rowArr[j][i]);
     }
   }
-  console.log(resArr);
+
   return { data: _.flatten(resArr), width: height, height: width };
 };
 
@@ -62,21 +64,34 @@ libTr.rotateArray = (dataObj: iDataObj) => {
  *    then uses 'option' to slect the transition option. 
  */
 
-libTr.handleTransition = (dataObj: iDataObj, option: string) => {
-  const arrOfRGBs = [];
-  const width = dataObj.width;
-  const height = dataObj.height;
-  const data = dataObj.data;
-  const n = data.length;
-  for (let i = 0; i < n; i += 4) {
-    const rgb = [data[i], data[i + 1], data[i + 2], data[i + 3]];  
-    arrOfRGBs.push(rgb);
-  }
+libTr.handleTransition = (imageData: iImageData, option: string) => {
+  const arrOfRGBs = _.chunk(imageData.data, 4);
+  const width = imageData.width;
+  const height = imageData.height;
+
   const newImage = new ImageData(width, height);
   const imgArr = libTr.rotateArray({ width, height, data: arrOfRGBs });
   newImage.data.set(imgArr.data);
-  // console.dir(newImage);
   return newImage;
+};
+
+/**
+ * This Mock is here because there is no Canvas in node.
+ * It is simulating an ImageData type that would come out of
+ * Canvas.context
+ */
+libTr.handleTransitionMock = (imageData: any, option: string) => {
+
+  const arrOfRGBs = _.chunk(imageData.data, 4);
+  const width = imageData.width;
+  const height = imageData.height;
+
+  const newImage = imageData;
+  const imgArr = libTr.rotateArray({ width, height, data: arrOfRGBs });
+  newImage.data.set(imgArr.data);
+  
+  return newImage;
+
 };
 
 export default libTr;

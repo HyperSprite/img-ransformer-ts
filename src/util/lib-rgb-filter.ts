@@ -5,6 +5,7 @@ export type RGB = [ number, number, number ];
 export interface iRGBFilter {
   [key: string]: Function;
 }
+
 /**
  * rgbToGrayscale uses math from the Gimp RGB to Grayscale help docs
  * options match lightness, average, and luminosity.
@@ -103,7 +104,7 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
  * }
  *   Does not use the bitwise operators or Typed Array buffers.
  */
-lib.walkRGBImageArray = (newImage: any, option: string, callback: any) => {
+lib.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) => {
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
     const rgb = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
@@ -169,19 +170,3 @@ lib.handleRGBFilterMock = (imageData: any, option: string, callback: any) => {
 };
 
 export default lib;
-
-
-/** old version of capAndSplit, only does first letter in whole string  */
-// return `${word.charAt(0).toUpperCase()}${word.slice(1).split('_').join(' ')}`;
-
-/** old single color format */
-// lib.forGreyscale = (newImage: any, option: string, callback: any) => {
-//   const data = newImage.data;
-//   for (let i = 0; i < data.length; i += 4) {
-//     const grey = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
-//     data[i] = grey;
-//     data[i + 1] = grey;
-//     data[i + 2] = grey;
-//   }
-//   return callback(newImage);
-// };

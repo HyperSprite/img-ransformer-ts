@@ -72,12 +72,17 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
 };
 
 
-lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
-  const width = imageData.width;
-  const height = imageData.height;
-  const newImage = new ImageData(width, height);
-  newImage.data.set(imageData.data);
-
+/**
+ * This does Greyscal conversions expeting a Canvas ImageData stype format
+ * as in:
+ * {
+ *   width: number,
+ *   height: number,
+ *   data: Uint8ClampedArray,
+ * }
+ *   Does not use the bitwise operators or Typed Array buffers.
+ */
+lib.forGreyscale = (newImage: any, option: string, callback: any) => {
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
     const grey = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
@@ -86,6 +91,59 @@ lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
     data[i + 2] = grey;
   }
   return callback(newImage);
+};
+
+lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
+  const width = imageData.width;
+  const height = imageData.height;
+  const newImage = new ImageData(width, height);
+  newImage.data.set(imageData.data);
+  
+  const result = lib.forGreyscale(newImage, option, callback);
+  
+  return callback(result);
+};
+
+/**
+ *  TODO
+ *  This is so full of broken. First, it fails testing returning:
+ *    RangeError: byte length of Uint32Array should be a multiple of 4
+ *      at new Uint32Array (native)
+ *  Also, it appears to work but it is actually returning some kind of 
+ *    negative set of values. It is seems to be processing the pixels
+ *    themselves correctly but not necessarily in the right order or something.
+ *    Also, it does not appear to be an Endian issue since the alpha channel
+ *    is in the right spot. Need to come back to this after some research.
+ */
+lib.forGreyscalewUint32 = (newImage: any, option: string, callback: any) => {
+  const d = newImage.data;
+  const buf = new ArrayBuffer(newImage.data.length);
+  
+  const buf8 = new Uint8ClampedArray(buf);
+  const data = new Uint32Array(buf);
+
+  let j = 0;
+  for (let i = 0; i < newImage.data.length; i += 4) {
+    const grey = lib.rgbToGrayscale([d[i], d[i + 1], d[i + 2]], option);
+    /**          Alpha      |  Red         |  Green       |  Blue */
+    data[j] = (255 << 24) | (grey << 16) | (grey <<  8) | grey;
+    j += 1; // Advance current increment
+  }
+  newImage.data.set(buf8);
+  return callback(newImage);
+};
+
+/**
+ * This Mock is here because there is no Canvas in node.
+ * It is simulating an ImageData type that would come out of
+ * Canvas.context
+ */
+lib.handleGrayscaleMock = (imageData: any, option: string, callback: any) => {
+  const newImage = imageData;
+  newImage.data.set(imageData.data);
+  const result = lib.forGreyscale(imageData, option, callback);
+  
+  return callback(result);
 };
 
 export default lib;

@@ -15,7 +15,7 @@ This is create-react-app/typescript project configuration and VS Code setup.
 * Select using data from lib.greyFilter for values.
 * Drop or click "Select File" button working using Dropzone.
 * Load Original Canvas with chosen image, Load Transformed Canvas with copy for Original Canvas.
-* Apply a filter to Transformed Canvas. 
+* Apply a filter to Transformed Canvas.
 
 ## Open Tasks:
 
@@ -53,7 +53,7 @@ npm run dev
 * tslint-config-airbnb: TypeScript AirBnB style guide for tslint.
 * typescript: TypeScript (no global TypeScript installed).
 
-![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)
+![Img Transformer Screenshot](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-in-action.png)
 
 ## Notes:
 
@@ -62,3 +62,6 @@ npm run dev
 * Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
 * Random Error: import fails with 'no default export' was resolved by updating tsconfig with ```"allowSyntheticDefaultImports": true,``` see [import fails with 'no default export' #8](https://github.com/Microsoft/TypeScript-React-Starter/issues/8)
 * removed ```"tslint-react",``` from tslint rules as it was redundant.
+*
+
+![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)

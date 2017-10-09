@@ -39,8 +39,8 @@ class ImgTransformer extends React.Component<Props, State>
       droppedFile: undefined,
       streamedFile: undefined,
       pristineFIle: undefined,
-      width: 400,
-      height: 400,
+      width: 350,
+      height: 350,
       pristine: true,
     };
     this.handleImageSelect = this.handleImageSelect.bind(this);
@@ -54,7 +54,6 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   setImage(reader: FileReader, file: File) {
-    console.log('setImage');
     this.setState({ originalFile: reader.result, droppedFile: file.name });
   }
 
@@ -100,6 +99,7 @@ class ImgTransformer extends React.Component<Props, State>
 
   handleCanvasFileToArray(CanvasFileImageData: any) {
     if (CanvasFileImageData) {
+      console.log(CanvasFileImageData);
       this.setState({ pristine: true, streamedFile: CanvasFileImageData, pristineFIle: CanvasFileImageData });
     }
   }

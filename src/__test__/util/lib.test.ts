@@ -1,4 +1,5 @@
 import lib from '../../util/lib';
+import imageArray from './imageArray';
 
 describe('lib.rgbValue test for valid RGB number', () => {
 
@@ -59,5 +60,23 @@ describe('lib.grayFilterValues returns an array of options for the grayFilter Se
       // tslint:disable-next-line
       {"key": "red_filter", "text": "Red filter", "value": "red_filter"}
     );
+  });
+});
+
+const ImageDataShape = {
+  width: 50,
+  height: 50,
+  data: expect.any(Uint8ClampedArray),
+
+};
+
+describe('lib.handleGrayscaleMock returns ImageData format data', () => {
+  it('should expect ImageData has width property', () => {
+    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(imageArray) };
+    expect(lib.handleGrayscaleMock(testImage, 'lightness', (cb: any) => cb)).toHaveProperty('width', 50);
+  });
+  it('should expect ImageData type', () => {
+    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(imageArray) };
+    expect(lib.handleGrayscaleMock(testImage, 'lightness', (cb: any) => cb)).toMatchObject(ImageDataShape);
   });
 });

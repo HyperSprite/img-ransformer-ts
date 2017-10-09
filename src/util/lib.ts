@@ -2,37 +2,57 @@ const lib = <any>{};
 
 export type RGB = [ number, number, number ];
 
-export interface GrayFilter {
+export interface iRGBFilter {
   [key: string]: Function;
 }
 /**
  * rgbToGrayscale uses math from the Gimp RGB to Grayscale help docs
  * options match lightness, average, and luminosity.
  * see https://docs.gimp.org/2.8/en/gimp-tool-desaturate.html
- * red_filter is my own creation.
+ * red_filter and vintage_filter are my own creation.
  * these filters only act on pixels RGB value.
  * Note, when adding new filters '_' will be replaced by ' ' for select.
  */
 
-const grayFilter: GrayFilter = {
-  lightness: ((rgb: RGB) => (Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2)),
-  average: (rgb: RGB) => (rgb[0] + rgb[1] + rgb[2]) / 3,
-  luminosity: (rgb: RGB) => ((0.21 * rgb[0]) + (0.72 * rgb[1]) + (0.07 * rgb[2])),
-  red_filter: (rgb: RGB) => ((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2])),
+const rgbFilter: iRGBFilter = {
+  greyscale_lightness: (rgb: RGB) => {
+    const grey = Math.floor((Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2));
+    return [grey, grey, grey];
+  },
+  greyscale_average: (rgb: RGB) => {
+    const grey = Math.floor((rgb[0] + rgb[1] + rgb[2]) / 3);
+    return [grey, grey, grey];
+  },
+  greyscale_luminosity: (rgb: RGB) => {
+    const grey = Math.floor((0.21 * rgb[0]) + (0.72 * rgb[1]) + (0.07 * rgb[2]));
+    return [grey, grey, grey];
+  },
+  greyscale_red_filter: (rgb: RGB) => {
+    const grey = Math.floor((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2]));
+    return [grey, grey, grey];
+  },
+  greyscale_vintage_filter: (rgb: RGB) => {
+    const grey = (Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2);
+    return [Math.floor(grey * 0.89), Math.floor(grey * 0.84), Math.floor(grey * 0.75)];
+  },
+  reload_image: (rgb: RGB) => {
+    return rgb;
+  },
 };
 
 /**
- * Takes a string and returns it with first letter Cap and spaces replace underscores
+ * Takes a string and returns all words with 
+ *   first letter Cap and spaces replace underscores
  */
 const capAndSplit = (word: string) => {
-  return `${word.charAt(0).toUpperCase()}${word.slice(1).split('_').join(' ')}`;
+  return word.split('_').map(wd => wd.charAt(0).toUpperCase() + wd.slice(1)).join(' ');
 };
 /**
- * grayFilterValues is to return an array of options for the grayFilter Select.
+ * rgbFilterValues is to return an array of options for the rgbFilter Select.
  * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
  */
 
-lib.grayFilterValues = () => Object.keys(grayFilter).map((gF) => {
+lib.rgbFilterValues = () => Object.keys(rgbFilter).map((gF) => {
   return { key: gF, value: gF, text: capAndSplit(gF) };
 });
 /** 
@@ -47,7 +67,7 @@ lib.rgbValue = (num: number) => {
  *   and returns a sigle number value between 0 and 255.
  * Returns -1 on any error
  */
-lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
+lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
   let result = -1;
   
   /**
@@ -62,10 +82,11 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
   ) return result;
   /**
    * Checks the 'option' is valid
-   * Runs fuction from grayFilter and rounds down result. 
+   * Runs fuction from rgbFilter and rounds down result. 
    */
-  if ({}.hasOwnProperty.call(grayFilter, option)) {
-    result = Math.floor(grayFilter[option](rgb));
+  if ({}.hasOwnProperty.call(rgbFilter, option)) {
+    // result = Math.floor(rgbFilter[option](rgb));
+    result = rgbFilter[option](rgb);
   }
 
   return result;
@@ -82,24 +103,24 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'luminosity'): number => {
  * }
  *   Does not use the bitwise operators or Typed Array buffers.
  */
-lib.forGreyscale = (newImage: any, option: string, callback: any) => {
+lib.walkRGBImageArray = (newImage: any, option: string, callback: any) => {
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
-    const grey = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
-    data[i] = grey;
-    data[i + 1] = grey;
-    data[i + 2] = grey;
+    const rgb = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
+    data[i] = rgb[0];
+    data[i + 1] = rgb[1];
+    data[i + 2] = rgb[2];
   }
   return callback(newImage);
 };
 
-lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
+lib.handleRGBFilter = (imageData: ImageData, option: string, callback: any) => {
   const width = imageData.width;
   const height = imageData.height;
   const newImage = new ImageData(width, height);
   newImage.data.set(imageData.data);
   
-  const result = lib.forGreyscale(newImage, option, callback);
+  const result = lib.walkRGBImageArray(newImage, option, callback);
   
   return callback(result);
 };
@@ -139,12 +160,28 @@ lib.forGreyscalewUint32 = (newImage: any, option: string, callback: any) => {
  * It is simulating an ImageData type that would come out of
  * Canvas.context
  */
-lib.handleGrayscaleMock = (imageData: any, option: string, callback: any) => {
+lib.handleRGBFilterMock = (imageData: any, option: string, callback: any) => {
   const newImage = imageData;
   newImage.data.set(imageData.data);
-  const result = lib.forGreyscale(imageData, option, callback);
+  const result = lib.walkRGBImageArray(imageData, option, callback);
   
   return callback(result);
 };
 
 export default lib;
+
+
+/** old version of capAndSplit, only does first letter in whole string  */
+// return `${word.charAt(0).toUpperCase()}${word.slice(1).split('_').join(' ')}`;
+
+/** old single color format */
+// lib.forGreyscale = (newImage: any, option: string, callback: any) => {
+//   const data = newImage.data;
+//   for (let i = 0; i < data.length; i += 4) {
+//     const grey = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
+//     data[i] = grey;
+//     data[i + 1] = grey;
+//     data[i + 2] = grey;
+//   }
+//   return callback(newImage);
+// };

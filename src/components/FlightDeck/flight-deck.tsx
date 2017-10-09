@@ -11,9 +11,9 @@ const FlightDeck = (props: any) => {
     <Dropdown
     fluid
     selection
-    placeholder="Grayscale"
-    onChange={props.greyscaleOnChange}
-    options={lib.grayFilterValues()}
+    placeholder="Color Filter"
+    onChange={props.rgbFilterOnChange}
+    options={lib.rgbFilterValues()}
     />
   );
 
@@ -38,7 +38,13 @@ const FlightDeck = (props: any) => {
           </Grid.Row>
         </Grid.Column>
         <Grid.Column width={4}>
-          <Button positive={!props.pristine} disabled={props.pristine} fluid >Save Image</Button>
+          <Button
+            positive={!props.pristine}
+            disabled={props.pristine}
+            fluid
+          >
+            Save Image
+          </Button>
         </Grid.Column>
       </Grid>
 

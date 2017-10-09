@@ -46,7 +46,7 @@ class ImgTransformer extends React.Component<Props, State>
     this.handleImageSelect = this.handleImageSelect.bind(this);
     this.handleCanvasFileToArray = this.handleCanvasFileToArray.bind(this);
     this.handleMagicButton = this.handleMagicButton.bind(this);
-    this.handleGreyscaleOnChange = this.handleGreyscaleOnChange.bind(this);
+    this.handleRGBFilterOnChange = this.handleRGBFilterOnChange.bind(this);
   }
 
   componentWillMount() {
@@ -67,14 +67,14 @@ class ImgTransformer extends React.Component<Props, State>
     }
   }
 
-  handleGreyscaleOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
-    console.log('handleGreyscaleOnChange', data.value);
+  handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+    console.log('handleRGBFilterOnChange', data.value);
     if (this.state.pristineFIle) {
       const imageData = this.state.pristineFIle;
 
       this.setState({
         pristine: false,
-        streamedFile: lib.handleGrayscale(
+        streamedFile: lib.handleRGBFilter(
           imageData,
           data.value,
           (r: any) => r),
@@ -137,7 +137,7 @@ class ImgTransformer extends React.Component<Props, State>
                 <FlightDeck
                   dropped={this.handleImageSelect}
                   magicOnClick={this.handleMagicButton}
-                  greyscaleOnChange={this.handleGreyscaleOnChange}
+                  rgbFilterOnChange={this.handleRGBFilterOnChange}
                   pristine={this.state.pristine}
                 />
               </Grid.Column>

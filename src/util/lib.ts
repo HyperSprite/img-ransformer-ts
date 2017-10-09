@@ -104,6 +104,8 @@ lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
   return callback(result);
 };
 
+
+
 /**
  *  TODO
  *  This is so full of broken. First, it fails testing returning:
@@ -118,7 +120,6 @@ lib.handleGrayscale = (imageData: ImageData, option: string, callback: any) => {
 lib.forGreyscalewUint32 = (newImage: any, option: string, callback: any) => {
   const d = newImage.data;
   const buf = new ArrayBuffer(newImage.data.length);
-  
   const buf8 = new Uint8ClampedArray(buf);
   const data = new Uint32Array(buf);
 

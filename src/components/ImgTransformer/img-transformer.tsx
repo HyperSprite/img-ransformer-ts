@@ -1,7 +1,8 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
-import lib from '../../util/lib';
+import libRGB from '../../util/lib-rgb-filter';
+import libTr from '../../util/lib-transition';
 import ImageFile from '../../image';
 
 import { DEFAULT_IMAGE_NAME } from '../../constants';
@@ -74,7 +75,7 @@ class ImgTransformer extends React.Component<Props, State>
 
       this.setState({
         pristine: false,
-        streamedFile: lib.handleRGBFilter(
+        streamedFile: libRGB.handleRGBFilter(
           imageData,
           data.value,
           (r: any) => r),
@@ -89,9 +90,9 @@ class ImgTransformer extends React.Component<Props, State>
 
       this.setState({
         pristine: false,
-        streamedFile: lib.handleGrayscale(
+        streamedFile: libTr.handleTransition(
           imageData,
-          'luminosity',
+          'rotate',
           (r: any) => r),
       });
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Dropdown, Grid, Icon } from 'semantic-ui-react';
 
 import DropButton from '../DropButton';
-import lib from '../../util/lib';
+import libRGB from '../../util/lib-rgb-filter';
 import './style.css';
 
 const FlightDeck = (props: any) => {
@@ -13,7 +13,7 @@ const FlightDeck = (props: any) => {
     selection
     placeholder="Color Filter"
     onChange={props.rgbFilterOnChange}
-    options={lib.rgbFilterValues()}
+    options={libRGB.rgbFilterValues()}
     />
   );
 

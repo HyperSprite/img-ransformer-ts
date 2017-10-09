@@ -1,4 +1,4 @@
-import lib from '../../util/lib';
+import lib from '../../util/lib-rgb-filter';
 import imageArray from './imageArray';
 
 describe('lib.rgbValue test for valid RGB number', () => {

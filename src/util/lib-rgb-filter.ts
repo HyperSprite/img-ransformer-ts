@@ -1,4 +1,4 @@
-const lib = <any>{};
+const libRGB = <any>{};
 
 export type RGB = [ number, number, number ];
 
@@ -53,13 +53,13 @@ const capAndSplit = (word: string) => {
  * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
  */
 
-lib.rgbFilterValues = () => Object.keys(rgbFilter).map((gF) => {
+libRGB.rgbFilterValues = () => Object.keys(rgbFilter).map((gF) => {
   return { key: gF, value: gF, text: capAndSplit(gF) };
 });
 /** 
  * returns false if supplied number is out of range or not a number
  */
-lib.rgbValue = (num: number) => {
+libRGB.rgbValue = (num: number) => {
   return (typeof num === 'number' && !isNaN(num) && (num >= 0) && (num <= 255));
 };
 
@@ -68,7 +68,7 @@ lib.rgbValue = (num: number) => {
  *   and returns a sigle number value between 0 and 255.
  * Returns -1 on any error
  */
-lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
+libRGB.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
   let result = -1;
   
   /**
@@ -79,7 +79,7 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
     !rgb ||
     !Array.isArray(rgb) ||
     rgb.length !== 3 ||
-    !rgb.every(color => lib.rgbValue(color))
+    !rgb.every(color => libRGB.rgbValue(color))
   ) return result;
   /**
    * Checks the 'option' is valid
@@ -92,8 +92,6 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
 
   return result;
 };
-
-
 /**
  * This does Greyscal conversions expeting a Canvas ImageData stype format
  * as in:
@@ -104,10 +102,10 @@ lib.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
  * }
  *   Does not use the bitwise operators or Typed Array buffers.
  */
-lib.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) => {
+libRGB.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) => {
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
-    const rgb = lib.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
+    const rgb = libRGB.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
     data[i] = rgb[0];
     data[i + 1] = rgb[1];
     data[i + 2] = rgb[2];
@@ -115,45 +113,15 @@ lib.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) => 
   return callback(newImage);
 };
 
-lib.handleRGBFilter = (imageData: ImageData, option: string, callback: any) => {
+libRGB.handleRGBFilter = (imageData: ImageData, option: string, callback: any) => {
   const width = imageData.width;
   const height = imageData.height;
   const newImage = new ImageData(width, height);
   newImage.data.set(imageData.data);
   
-  const result = lib.walkRGBImageArray(newImage, option, callback);
+  const result = libRGB.walkRGBImageArray(newImage, option, callback);
   
   return callback(result);
-};
-
-
-
-/**
- *  TODO
- *  This is so full of broken. First, it fails testing returning:
- *    RangeError: byte length of Uint32Array should be a multiple of 4
- *      at new Uint32Array (native)
- *  Also, it appears to work but it is actually returning some kind of 
- *    negative set of values. It is seems to be processing the pixels
- *    themselves correctly but not necessarily in the right order or something.
- *    Also, it does not appear to be an Endian issue since the alpha channel
- *    is in the right spot. Need to come back to this after some research.
- */
-lib.forGreyscalewUint32 = (newImage: any, option: string, callback: any) => {
-  const d = newImage.data;
-  const buf = new ArrayBuffer(newImage.data.length);
-  const buf8 = new Uint8ClampedArray(buf);
-  const data = new Uint32Array(buf);
-
-  let j = 0;
-  for (let i = 0; i < newImage.data.length; i += 4) {
-    const grey = lib.rgbToGrayscale([d[i], d[i + 1], d[i + 2]], option);
-    /**          Alpha      |  Red         |  Green       |  Blue */
-    data[j] = (255 << 24) | (grey << 16) | (grey <<  8) | grey;
-    j += 1; // Advance current increment
-  }
-  newImage.data.set(buf8);
-  return callback(newImage);
 };
 
 /**
@@ -161,12 +129,12 @@ lib.forGreyscalewUint32 = (newImage: any, option: string, callback: any) => {
  * It is simulating an ImageData type that would come out of
  * Canvas.context
  */
-lib.handleRGBFilterMock = (imageData: any, option: string, callback: any) => {
+libRGB.handleRGBFilterMock = (imageData: any, option: string, callback: any) => {
   const newImage = imageData;
   newImage.data.set(imageData.data);
-  const result = lib.walkRGBImageArray(imageData, option, callback);
+  const result = libRGB.walkRGBImageArray(imageData, option, callback);
   
   return callback(result);
 };
 
-export default lib;
+export default libRGB;

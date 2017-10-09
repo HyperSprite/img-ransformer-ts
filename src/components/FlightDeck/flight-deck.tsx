@@ -17,6 +17,11 @@ const FlightDeck = (props: any) => {
     />
   );
 
+  /** TODO
+   *  <Button>Save Image, add 'disabled={props.pristine}'
+   *   when save feature is ready.
+   */
+
   return (
     <div className="flight-deck-main">
 
@@ -40,7 +45,7 @@ const FlightDeck = (props: any) => {
         <Grid.Column width={4}>
           <Button
             positive={!props.pristine}
-            disabled={props.pristine}
+            disabled
             fluid
           >
             Save Image

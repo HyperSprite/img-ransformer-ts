@@ -81,11 +81,9 @@ libTr.handleTransition = (imageData: iImageData, option: string) => {
  * Canvas.context
  */
 libTr.handleTransitionMock = (imageData: any, option: string) => {
-
   const arrOfRGBs = _.chunk(imageData.data, 4);
   const width = imageData.width;
   const height = imageData.height;
-
   const newImage = imageData;
   const imgArr = libTr.rotateArray({ width, height, data: arrOfRGBs });
   newImage.data.set(imgArr.data);

@@ -1,6 +1,6 @@
 # Image Transformer Project
 
-This is create-react-app/typescript project configuration and VS Code setup.
+This is a create-react-app/typescript project configuration and VS Code setup.
 
 > I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
 
@@ -65,4 +65,4 @@ npm run dev
 * Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
 * Random Error: import fails with 'no default export' was resolved by updating tsconfig with ```"allowSyntheticDefaultImports": true,``` see [import fails with 'no default export' #8](https://github.com/Microsoft/TypeScript-React-Starter/issues/8)
 * removed ```"tslint-react",``` from tslint rules as it was redundant.
-
+* VS Code search... if there is one thing that is bugging me it's the search dialog boxes. :) 

@@ -1,31 +1,41 @@
+import testData from './test-data';
 import libTr from '../../util/lib-transition';
 
+export interface iTestImageObject {
+  width: number;
+  height: number;
+  data: [ [number,number,number, number] ];
+}
+
 describe('libTransition transforms the pixle map based on options', () => {
-  const rotateArrayInData = { data: [[1, 2, 3, 4],[5, 6, 7, 8],[9, 10, 11, 12],[13, 14, 15, 16]], width: 2, height: 2 };
-  const rotateArrayOutData = { data: [9, 10, 11, 12, 1, 2, 3, 4, 13, 14, 15, 16, 5, 6, 7, 8], width: 2, height: 2 };
-  it('rotateArray args ({data: [1, 2, 3...], width: 3, height: 3}, rotate) should expect [13, 9, 5...]', () => {
-    expect(libTr.rotateArray(rotateArrayInData)).toMatchObject(rotateArrayOutData);
+  it('libTr.flip, dataArraySquare flips once, returns matching object', () => {
+    expect(testData.loopCount(testData.dataArraySquare, libTr.flip, 1))
+      .toMatchObject(testData.dataArraySquareOneFlip);
   });
 
-  const flipArrayInData = { data: [[1, 2, 3, 4],[5, 6, 7, 8],[9, 10, 11, 12],[13, 14, 15, 16]], width: 2, height: 2 };
-  const flipArrayOutData = { data: [9, 10, 11, 12, 13, 14, 15, 16, 1, 2, 3, 4, 5, 6, 7, 8], width: 2, height: 2 };
-  it('flipArray args ({data: [1, 2, 3...], width: 3, height: 3}, rotate) should expect [13, 9, 5...]', () => {
-    expect(libTr.flipArray(flipArrayInData)).toMatchObject(flipArrayOutData);
+  it('libTr.flip, dataArrayOffset flips twice, returns matching object', () => {
+    expect(testData.loopCount(testData.dataArrayOffset, libTr.flip, 2))
+      .toMatchObject(testData.dataArrayOffset);
   });
 
-  const transitionArrayInData = {
-    data: Uint8ClampedArray.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]),
-    width: 2,
-    height: 2,
-  };
-  const transitionArrayOutData = {
-    data: Uint8ClampedArray.from([9, 10, 11, 12, 1, 2, 3, 4, 13, 14, 15, 16, 5, 6, 7, 8]),
-    width: 2,
-    height: 2,
-  };
-  it('handleTransition args ({data: [1, 2, 3...], width: 3, height: 3}, rotate) should expect [13, 9, 5...]', () => {
-    expect(libTr.handleTransitionMock(transitionArrayInData, 'rotate'))
-      .toMatchObject(transitionArrayOutData);
+  it('libTr.rotate will rotate one time and return match to input array', () => {
+    expect(testData.loopCount(testData.dataArraySquare, libTr.rotate, 1))
+      .toMatchObject(testData.dataArraySquareOneRotate);
+  });
+
+  it('libTr.rotate will rotate four times and return match to input array', () => {
+    expect(testData.loopCount(testData.dataArraySquare, libTr.rotate, 4))
+      .toMatchObject(testData.dataArraySquare);
+  });
+
+  it('libTr.rotate will rotate one time and return match to input array', () => {
+    expect(testData.loopCount(testData.dataArrayOffset, libTr.rotate, 1))
+      .toMatchObject(testData.dataArrayOffsetOneRotate);
+  });
+
+  it('handleTransition rotate testImageArraySquare expect ', () => {
+    const testImageArrayOffset = testData.imageArrayOffset;
+    expect(libTr.handleTransitionMock(testImageArrayOffset, 'rotate', ((cb: any) => cb)))
+      .toMatchObject(testData.imageArrayOffsetOneRotate);
   });
 });
-

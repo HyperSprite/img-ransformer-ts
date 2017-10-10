@@ -13,7 +13,7 @@ lib.transoform = (imageData: ImageData, category: string, option: string, cb: an
     case ('rgb'):
       return libRGB.handleRGBFilter(imageData, option, cb);
     case ('transition'):
-      return libTr.handleTransition(imageData, option);
+      return libTr.handleTransition(imageData, option, cb);
   }
 };
 

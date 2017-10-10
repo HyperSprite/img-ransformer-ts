@@ -1,5 +1,5 @@
+import testData from './test-data';
 import libRGB from '../../util/lib-rgb-filter';
-import imageArray from './imageArray';
 
 describe('libRGB.rgbValue test for valid RGB number', () => {
 
@@ -22,34 +22,34 @@ describe('libRGB.rgbValue test for valid RGB number', () => {
 
 describe('libRGB.rgbToGrayscale converts an array containing RGB to Grayscale based on options', () => {
 
-  it('args ([246, 64, 10], \'greyscale_lightness\') should expect 251 using \'lightness\'', () => {
+  it('greyscale_lightness - expect 251', () => {
     expect(libRGB.rgbToGrayscale([246, 64, 10], 'greyscale_lightness')).toMatchObject([251, 251, 251]);
   });
-  it('args ([126, 126, 126], \'greyscale_average\') should expect 125 using \'average\'', () => {
+  it('greyscale_average expect 125', () => {
     expect(libRGB.rgbToGrayscale([126, 126, 126], 'greyscale_average')).toMatchObject([126, 126, 126]);
   });
-  it('args ([49, 87, 35], \'greyscale_luminosity\')should expect 75 using \'luminosity\'', () => {
+  it('greyscale_luminosity expect 75', () => {
     expect(libRGB.rgbToGrayscale([49, 87, 35], 'greyscale_luminosity')).toMatchObject([75, 75, 75]);
   });
-  it('args ([87, 49, 35]), \'greyscale_red_filter\') should expect 75 using \'red_filter\'', () => {
+  it('greyscale_red_filter expect 75', () => {
     expect(libRGB.rgbToGrayscale([87, 49, 35], 'greyscale_red_filter')).toMatchObject([75, 75, 75]);
   });
-  it('args ([87, 49, 35]), \'greyscale_vintage_filter\') should expect [93, 87, 78] using \'red_filter\'', () => {
-    expect(libRGB.rgbToGrayscale([87, 49, 35], 'greyscale_vintage_filter')).toMatchObject([93, 87, 78]);
+  it('tint_vintage_filter expect [93, 87, 78]', () => {
+    expect(libRGB.rgbToGrayscale([87, 49, 35], 'tint_vintage_filter')).toMatchObject([93, 87, 78]);
   });
-  it('args ([49, 87, 35]<no option>) should expect 75 using luminosity', () => {
+  it('<no option> expect 75', () => {
     expect(libRGB.rgbToGrayscale([49, 87, 35])).toMatchObject([49, 87, 35]);
   });
-  it('args ([87, 49, 35], \'nofilter\') should expect -1, \'noFilter\' is invalid', () => {
+  it('non methced filter string expect -1', () => {
     expect(libRGB.rgbToGrayscale([49, 87, 35], 'nofilter')).toBe(-1);
   });
-  it('args ([49, 87]<no option>) should expect -1', () => {
+  it('[49, 87] expect -1', () => {
     expect(libRGB.rgbToGrayscale([49, 87])).toBe(-1);
   });
-  it('args (49, 38, 27, \'average\') should expect -1', () => {
+  it('(49, 38, 27, \'average\') expect -1', () => {
     expect(libRGB.rgbToGrayscale(49, 38, 27, 'avereage')).toBe(-1);
   });
-  it('args (27, \'average\') should expect -1', () => {
+  it('(27, \'average\') expect -1', () => {
     expect(libRGB.rgbToGrayscale(27, 'avereage')).toBe(-1);
   });
   it('args (\'someString\', \'average\') should expect -1', () => {
@@ -74,11 +74,11 @@ const ImageDataShape = {
 
 describe('libRGB.handleRGBFilterMock returns ImageData format data', () => {
   it('should expect ImageData has width property', () => {
-    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(imageArray) };
+    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(testData.imageArray.data) };
     expect(libRGB.handleRGBFilterMock(testImage, 'lightness', (cb: any) => cb)).toHaveProperty('width', 50);
   });
   it('should expect ImageData Shape', () => {
-    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(imageArray) };
+    const testImage =  { width: 50, height: 50, data: Uint8ClampedArray.from(testData.imageArray.data) };
     expect(libRGB.handleRGBFilterMock(testImage, 'lightness', (cb: any) => cb)).toMatchObject(ImageDataShape);
   });
 });

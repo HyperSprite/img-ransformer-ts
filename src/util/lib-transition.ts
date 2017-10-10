@@ -12,7 +12,7 @@ interface iImageData {
  * Flip an Array
  */
 
-libTr.flipArray = (imageData: iImageData) => {
+libTr.flip = (imageData: iImageData) => {
   const resArr = [];
   const rowArr = [];
   const width = imageData.width;
@@ -20,23 +20,24 @@ libTr.flipArray = (imageData: iImageData) => {
   const data = imageData.data;
 
   let n = data.length;
+  // console.log(' start n --- ', n);
   for (let i = 0; i < height; i += 1) {
     rowArr[i] = data.slice(n - width,  n);
     n -= width;
+    // console.log(' start n --- ', n, i);
   }
   for (let i = 0; i < height; i += 1) {
-    for (let j = 0; j < height; j += 1) {
+    for (let j = 0; j < width; j += 1) {
       resArr.push(rowArr[i][j]);
     }
   }
-  return { data: _.flatten(resArr), width: height, height: width };
+  return { width, height, data: resArr };
 };
 
 /** 
  * Rotates an Array
  */
-
-libTr.rotateArray = (imageData: iImageData) => {
+libTr.rotate = (imageData: iImageData) => {
   const resArr = [];
   const rowArr = [];
   const width = imageData.width;
@@ -48,31 +49,31 @@ libTr.rotateArray = (imageData: iImageData) => {
     rowArr[i] = data.slice(n - width,  n);
     n -= width;
   }
-  for (let i = 0; i < height; i += 1) {
+
+  for (let i = 0; i < width; i += 1) {
     for (let j = 0; j < height; j += 1) {
       resArr.push(rowArr[j][i]);
     }
   }
-
-  return { data: _.flatten(resArr), width: height, height: width };
+  return { data: resArr, width: height, height: width };
 };
-
 
 /**
  *  Transition creates an array of [[RGBA]]
- *    so they can be manipulated as a unit
- *    then uses 'option' to slect the transition option. 
+ *    so each pixle can be manipulated as a unit
+ *    then uses 'option' to slect the transition method.
  */
 
-libTr.handleTransition = (imageData: iImageData, option: string) => {
+libTr.handleTransition = (imageData: iImageData, option: string, callback: any) => {
+  /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);
-  const width = imageData.width;
-  const height = imageData.height;
-
-  const newImage = new ImageData(width, height);
-  const imgArr = libTr.rotateArray({ width, height, data: arrOfRGBs });
-  newImage.data.set(imgArr.data);
-  return newImage;
+  /** Uses 'option' to pick transitoin method */
+  const imgArr = libTr[option]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
+  /** Creates a new ImageData, from Canvas 2d context */
+  const newImage = new ImageData(imgArr.width, imgArr.height);
+  /** Flattens the returned array and sets it to newImage */
+  newImage.data.set(_.flatten(imgArr.data));
+  return callback(newImage);
 };
 
 /**
@@ -80,16 +81,19 @@ libTr.handleTransition = (imageData: iImageData, option: string) => {
  * It is simulating an ImageData type that would come out of
  * Canvas.context
  */
-libTr.handleTransitionMock = (imageData: any, option: string) => {
+libTr.handleTransitionMock = (imageData: any, option: string, callback: any) => {
+  /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);
-  const width = imageData.width;
-  const height = imageData.height;
-  const newImage = imageData;
-  const imgArr = libTr.rotateArray({ width, height, data: arrOfRGBs });
-  newImage.data.set(imgArr.data);
-  
-  return newImage;
-
+  /** Uses 'option' to pick transitoin method */
+  const imgArr = libTr[option]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
+  /** Creates a new ImageData, from scratch */
+  /** Flattens the returned array and sets it to newImage */
+  const newImage = {
+    data: _.flatten(imgArr.data),
+    width: imgArr.width,
+    height: imgArr.height,
+  };
+  return callback(newImage);
 };
 
 export default libTr;

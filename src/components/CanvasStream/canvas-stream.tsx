@@ -7,9 +7,9 @@ export interface CanvasStreamedProps {
   /** Incoming image file */
   streamedFile?: ImageData;
   /** Sync width with ImgTransformer */
-  width: number;
-  /** Sync height with ImgTransformer */
-  height: number;
+  // width: number;
+  // /** Sync height with ImgTransformer */
+  // height: number;
 }
 
 interface canvasStreamedState {
@@ -47,21 +47,29 @@ class canvasStreamed extends React.Component<CanvasStreamedProps | canvasStreame
       this.setState(
         {
           streamedFile: this.props.streamedFile,
-          width: this.props.width,
-          height: this.props.height,
+          width: this.props.streamedFile.width,
+          height: this.props.streamedFile.height,
         },
         this.renderCanvas);
     }
   }
 
+  
+
   render() {
+
+    const Canvas = () =>  (
+      <div>
+        <canvas ref={c => this.canvasStreamed = c} width={this.state.width} height={this.state.height} />
+      </div>
+    );
 
     return (
       <Container textAlign="center">
+        <h3>Transformed</h3>
         <div>
-          <canvas ref={c => this.canvasStreamed = c} width={this.state.width} height={this.state.height} />
+          <Canvas />
         </div>
-        Transformed
       </Container>
     );
   }

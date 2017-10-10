@@ -32,7 +32,7 @@ const rgbFilter: iRGBFilter = {
     const grey = Math.floor((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2]));
     return [grey, grey, grey];
   },
-  greyscale_vintage_filter: (rgb: RGB) => {
+  tint_vintage_filter: (rgb: RGB) => {
     const grey = (Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2);
     return [Math.floor(grey * 0.89), Math.floor(grey * 0.84), Math.floor(grey * 0.75)];
   },

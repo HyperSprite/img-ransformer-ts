@@ -80,16 +80,15 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
         this.renderCanvas,
       );
     }
-  }
+  }  
 
   render() {
-
     return (
       <Container textAlign="center">
+        <h3>Original</h3>
         <div>
           <canvas ref={c => this.canvasFile = c} width={this.state.width} height={this.state.height} />
         </div>
-        Original
       </Container>
     );
   }

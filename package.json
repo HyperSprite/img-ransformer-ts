@@ -2,6 +2,7 @@
   "name": "img-transformation-ts",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://portfolio.hypersprite.com/img-transformation-ts/",
   "dependencies": {
     "lodash": "^4.17.4",
     "react": "^16.0.0",
@@ -26,7 +27,8 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test a --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "test": "react-scripts-ts test a --env=jsdom --verbose",
+    "eject": "react-scripts-ts eject",
+    "deploy": "npm run build && cp -TRv ./build ../hypersprite.github.io/img-transformation-ts"
   }
 }

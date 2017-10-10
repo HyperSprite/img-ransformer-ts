@@ -123,8 +123,6 @@ class ImgTransformer extends React.Component<Props, State>
             </Grid.Column>
             <Grid.Column>
               <CanvasStream
-                width={width}
-                height={height}
                 streamedFile={this.state.streamedFile}
               />
             </Grid.Column>

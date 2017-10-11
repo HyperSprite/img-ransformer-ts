@@ -21,7 +21,7 @@ export interface State {
   /** Image data from CanvasFile to CanvasStreamed */
   streamedFile: ImageData | undefined | any;
   /** Pristien Canvas Image */
-  pristineFIle: ImageData | undefined;
+  pristineFile: ImageData | undefined;
   /** A fresh image on the Canvas */
   pristine: boolean;
   /** Canvas Width */
@@ -38,14 +38,14 @@ class ImgTransformer extends React.Component<Props, State>
       originalFile: undefined,
       droppedFile: undefined,
       streamedFile: undefined,
-      pristineFIle: undefined,
+      pristineFile: undefined,
       width: 350,
       height: 350,
       pristine: true,
     };
     this.handleImageSelect = this.handleImageSelect.bind(this);
     this.handleCanvasFileToArray = this.handleCanvasFileToArray.bind(this);
-    this.handleMagicButton = this.handleMagicButton.bind(this);
+    this.handleTransitionOnChange = this.handleTransitionOnChange.bind(this);
     this.handleRGBFilterOnChange = this.handleRGBFilterOnChange.bind(this);
   }
 
@@ -68,9 +68,10 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
-    if (this.state.pristineFIle) {
-      const imageData = this.state.pristineFIle;
-
+    if (this.state.streamedFile) {
+      const imageData = data.value === 'reload_image' ?
+        this.state.pristineFile : 
+        this.state.streamedFile;
       this.setState({
         pristine: false,
         streamedFile: lib.transoform(
@@ -82,7 +83,7 @@ class ImgTransformer extends React.Component<Props, State>
     }
   }
 
-  handleMagicButton() {
+  handleTransitionOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
     if (this.state.streamedFile) {
       const imageData = this.state.streamedFile;
 
@@ -91,7 +92,7 @@ class ImgTransformer extends React.Component<Props, State>
         streamedFile: lib.transoform(
           imageData,
           'transition',
-          'rotate',
+          data.value,
           (r: any) => r),
       });
     }
@@ -99,14 +100,18 @@ class ImgTransformer extends React.Component<Props, State>
 
   handleCanvasFileToArray(CanvasFileImageData: any) {
     if (CanvasFileImageData) {
-      this.setState({ pristine: true, streamedFile: CanvasFileImageData, pristineFIle: CanvasFileImageData });
+      this.setState({
+        pristine: true,
+        streamedFile: CanvasFileImageData,
+        pristineFile: CanvasFileImageData,
+      });
     }
   }
-
+  
   render() {
     const { droppedFile, width, height } = this.state;
     const imageTitle = droppedFile !== DEFAULT_IMAGE_NAME ? droppedFile : '';
-
+    
     return (
       <div>
         <HeaderBlock title={imageTitle} />
@@ -133,7 +138,7 @@ class ImgTransformer extends React.Component<Props, State>
               <Grid.Column width={12}>
                 <FlightDeck
                   dropped={this.handleImageSelect}
-                  magicOnClick={this.handleMagicButton}
+                  transitionOnChange={this.handleTransitionOnChange}
                   rgbFilterOnChange={this.handleRGBFilterOnChange}
                   pristine={this.state.pristine}
                 />

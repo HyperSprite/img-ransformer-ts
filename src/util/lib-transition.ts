@@ -11,7 +11,6 @@ interface iImageData {
 /**
  * Flip an Array
  */
-
 libTr.flip = (imageData: iImageData) => {
   const resArr = [];
   const rowArr = [];
@@ -58,17 +57,26 @@ libTr.rotate = (imageData: iImageData) => {
   return { data: resArr, width: height, height: width };
 };
 
+libTr.transitions = {
+  flip: 'flip',
+  rotate: 'rotate',
+};
+
 /**
  *  Transition creates an array of [[RGBA]]
  *    so each pixle can be manipulated as a unit
  *    then uses 'option' to slect the transition method.
  */
-
 libTr.handleTransition = (imageData: iImageData, option: string, callback: any) => {
+  /**
+   * Test for option, defaults to rotate.
+   */
+  const opt = libTr.transitions[option] || 'rotate';
+
   /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);
   /** Uses 'option' to pick transitoin method */
-  const imgArr = libTr[option]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
+  const imgArr = libTr[opt]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
   /** Creates a new ImageData, from Canvas 2d context */
   const newImage = new ImageData(imgArr.width, imgArr.height);
   /** Flattens the returned array and sets it to newImage */

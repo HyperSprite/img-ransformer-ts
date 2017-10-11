@@ -24,7 +24,7 @@ const DropButton: React.StatelessComponent<Props | {}> = ({
       maxSize={9900000}
       multiple={false}
       ref={(node) => { dropzoneRef = node; }}
-      onDrop={(accepted, rejected) => { dropped(accepted); }}
+      onDrop={(accepted, rejected) => {dropped(accepted); }}
     >
       <Button primary fluid >Select Image</Button>
     </Dropzone>

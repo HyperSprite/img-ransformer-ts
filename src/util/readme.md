@@ -2,14 +2,14 @@
 
 Entry point:
 ```js
-lib.tFImageData(imageData, category, option, cb);
+lib.transoform(imageData, category, option, cb);
 ```
 
-Returns an ImageData object. 
+Returns an ImageData object.
 
-**ImageData** is an interface from the JavaScript Canvas 2d Context. 
+**ImageData** is an interface from the JavaScript Canvas 2d Context.
 
-> Note: ImageData is not natively supported in Node.js, because there is no DOM. It can be imported via node-canvas.If you are really looking for image data manipulation, I recommend [node-canvas](https://github.com/Automattic/node-canvas) (uses locally installed Cairo and Pango), mentioned above, [Filterous](https://github.com/girliemac/filterous-2) (uses node-canvas) [Jimp](https://github.com/oliver-moran/jimp) (no native dependencies, browser and node), or really, anything else.
+> Note: ImageData is not natively supported in Node.js because there is no DOM. It can be imported via node-canvas. If you are really looking for image data manipulation, I recommend [node-canvas](https://github.com/Automattic/node-canvas) (uses locally installed Cairo and Pango), mentioned above, [Filterous](https://github.com/girliemac/filterous-2) (uses node-canvas) [Jimp](https://github.com/oliver-moran/jimp) (no native dependencies, browser and node).
 
 The ImageData shape is as follows:
 
@@ -22,14 +22,12 @@ data: Uint8ClampedArray [ 255, 0, 0, 255, 124, 0, 0, 255, 64, 0, 0, 255 ]
 ```
 Every four elements represents one pixel and all of the elements are in a single flat array. All values are stored as unsigned integers between 0 and 255. The Uint8ClampedArray Typed Array assures no values fall outside this range, if they do, they are rounded to fit.
 
-**category** is the type of transformation.
+**category**: *string* - is the type of transformation.
 
-Current options are:
+* ```rgb``` *string* : RGB is a set of single pass individual pixel manipulations without moving any of them. This is used for greyscale transformations.
+* ```transition``` *string* : Transition are pixel moving transformations. It involves chunking up the array into 4 element arrays before moving them and then flattening them back into a single dimension.
 
-* ```rgb``` : RGB is a set of single pass individual pixel manipulations without moving any of them. This is used for greyscale transformations. 
-* ```transition``` : Transition are pixel moving transformations. It involves chunking up the array into 4 element arrays before moving them and then flattening them back into a single dimension.
-
-**option** is the sub transformation.
+**option**: *string* - is the sub transformation.
 * RGB
  * ```greyscale_lightness``` : Greyscale Lightness takes the Max and Min values of the RGB.
  * ```greyscale_average``` : Greyscale Average derives the average of the RGB values.
@@ -41,4 +39,6 @@ Current options are:
 
 * Transition
  * ```flip``` : Reverses the order of the [RGBA] sets to flip the image.
- * ```rotate``` : Rotates the [RGBA] sets 90 degrees.
+ * ```rotate``` : Rotates the [RGBA] sets 90 degrees. Note that Rotate does not require the image be square, it will rotate and return an ImageData with the width and height fields adjusted. Keep this in mind if you are placing your image on a rectangle.
+
+

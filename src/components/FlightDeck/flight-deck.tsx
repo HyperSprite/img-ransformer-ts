@@ -1,27 +1,31 @@
 import React from 'react';
-import { Button, Dropdown, Grid, Icon } from 'semantic-ui-react';
+import { Button, Grid, Modal } from 'semantic-ui-react';
 
 import DropButton from '../DropButton';
-import libRGB from '../../util/lib-rgb-filter';
+import DropdownOptions from '../DropdownOptions';
+import lib from '../../util/lib-transform';
 import './style.css';
 
 const FlightDeck = (props: any) => {
 
-  const SetupDropdown = () => (
-    <Dropdown
-    fluid
-    selection
-    placeholder="Color Filter"
-    onChange={props.rgbFilterOnChange}
-    options={libRGB.rgbFilterValues()}
+  const RGBFilter = () => (
+    <DropdownOptions
+      placeholder="Color Filters"
+      onChange={props.rgbFilterOnChange}
+      options={lib.optionValuesRGB()}
     />
   );
 
-  /** TODO
-   *  <Button>Save Image, add 'disabled={props.pristine}'
-   *   when save feature is ready.
-   */
+  const Transition = () => (
+    <DropdownOptions
+      placeholder="Transitions"
+      onChange={props.transitionOnChange}
+      options={lib.optionValuesTransition()}
+    />
+  );
 
+
+  // TODO Save Image feature.
   return (
     <div className="flight-deck-main">
 
@@ -31,28 +35,28 @@ const FlightDeck = (props: any) => {
         </Grid.Column>
         <Grid.Column width={8}>
           <Grid.Row>
-            <SetupDropdown />
+            <RGBFilter />
           </Grid.Row>
           <Grid.Row>
-            <Button
-              fluid
-              onClick={props.magicOnClick}
-            >
-              {'Magic '}<Icon name="wizard" />
-            </Button>
+            <Transition />
           </Grid.Row>
         </Grid.Column>
         <Grid.Column width={4}>
-          <Button
-            positive={!props.pristine}
-            disabled
-            fluid
-          >
-            Save Image
-          </Button>
+          <Modal trigger={
+            <Button
+              positive={!props.pristine}
+              disabled={props.pristine}
+              fluid
+            >
+              Save Image
+            </Button>
+            } basic size="small">
+            <Modal.Content>
+              <h3>Sorry, the Save feature is not yet implemented :(</h3>
+            </Modal.Content>
+          </Modal>
         </Grid.Column>
       </Grid>
-
     </div>
   );
 };

@@ -33,7 +33,7 @@ describe('libTransition transforms the pixle map based on options', () => {
       .toMatchObject(testData.dataArrayOffsetOneRotate);
   });
 
-  it('handleTransition rotate testImageArraySquare expect ', () => {
+  it('libTr.handleTransition rotate testImageArraySquare expect ', () => {
     const testImageArrayOffset = testData.imageArrayOffset;
     expect(libTr.handleTransitionMock(testImageArrayOffset, 'rotate', ((cb: any) => cb)))
       .toMatchObject(testData.imageArrayOffsetOneRotate);

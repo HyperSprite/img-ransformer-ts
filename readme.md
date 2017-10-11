@@ -16,15 +16,15 @@ This is a create-react-app/typescript project configuration and VS Code setup.
 * Drop or click "Select File" button working using Dropzone.
 * Load Original Canvas with chosen image, Load Transformed Canvas with copy for Original Canvas.
 * Apply a filter to Transformed Canvas.
-
-## Open Tasks:
-
+* Wire up "Reset Image" button to undo filters.
 * Build a function to take array of image RGB values and run transformations from the transformation lib.
 * Build, document and test API for transformations lib.
 * Build, document and test a user interface.
+
+## Open Tasks:
+
 * Wire up "Save" button.
 * Scale Canvas to fit parent div.
-* Wire up "Reset Image" button to undo filters.
 * Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.  
 
 ## Install and run:
@@ -40,6 +40,10 @@ npm install
 npm run dev
 # Open a browser and go to localhost:8080
 ```
+Tests
+```js
+npm run test
+``` 
 
 ## Dependencies:
 

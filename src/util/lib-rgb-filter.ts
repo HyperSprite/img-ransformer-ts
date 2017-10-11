@@ -15,11 +15,7 @@ export interface iRGBFilter {
  * Note, when adding new filters '_' will be replaced by ' ' for select.
  */
 
-const rgbFilter: iRGBFilter = {
-  greyscale_lightness: (rgb: RGB) => {
-    const grey = Math.floor((Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2));
-    return [grey, grey, grey];
-  },
+libRGB.rgbFilter = {
   greyscale_average: (rgb: RGB) => {
     const grey = Math.floor((rgb[0] + rgb[1] + rgb[2]) / 3);
     return [grey, grey, grey];
@@ -32,30 +28,24 @@ const rgbFilter: iRGBFilter = {
     const grey = Math.floor((0.72 * rgb[0]) + (0.21 * rgb[1]) + (0.07 * rgb[2]));
     return [grey, grey, grey];
   },
+  greyscale_lightness: (rgb: RGB) => {
+    const grey = Math.floor((Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2));
+    return [grey, grey, grey];
+  },
   tint_vintage_filter: (rgb: RGB) => {
     const grey = (Math.max(rgb[0], rgb[1], rgb[2]) + Math.min(rgb[0], rgb[1], rgb[2]) / 2);
-    return [Math.floor(grey * 0.89), Math.floor(grey * 0.84), Math.floor(grey * 0.75)];
+    return [(grey * 0.89), (grey * 0.84), (grey * 0.75)];
   },
   reload_image: (rgb: RGB) => {
     return rgb;
   },
 };
 
-/**
- * Takes a string and returns all words with 
- *   first letter Cap and spaces replace underscores
- */
-const capAndSplit = (word: string) => {
-  return word.split('_').map(wd => wd.charAt(0).toUpperCase() + wd.slice(1)).join(' ');
+const checkOptions = (option: string) => {
+  const opt = libRGB.rgbFilter.hasOwnProperty(option);
+  return opt ? option : 'reload_image';
 };
-/**
- * rgbFilterValues is to return an array of options for the rgbFilter Select.
- * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
- */
 
-libRGB.rgbFilterValues = () => Object.keys(rgbFilter).map((gF) => {
-  return { key: gF, value: gF, text: capAndSplit(gF) };
-});
 /** 
  * returns false if supplied number is out of range or not a number
  */
@@ -85,9 +75,8 @@ libRGB.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
    * Checks the 'option' is valid
    * Runs fuction from rgbFilter and rounds down result. 
    */
-  if ({}.hasOwnProperty.call(rgbFilter, option)) {
-    // result = Math.floor(rgbFilter[option](rgb));
-    result = rgbFilter[option](rgb);
+  if ({}.hasOwnProperty.call(libRGB.rgbFilter, option)) {
+    result = libRGB.rgbFilter[option](rgb);
   }
 
   return result;
@@ -103,6 +92,7 @@ libRGB.rgbToGrayscale = (rgb: RGB, option = 'reload_image') => {
  *   Does not use the bitwise operators or Typed Array buffers.
  */
 libRGB.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) => {
+
   const data = newImage.data;
   for (let i = 0; i < data.length; i += 4) {
     const rgb = libRGB.rgbToGrayscale([data[i], data[i + 1], data[i + 2]], option);
@@ -114,12 +104,17 @@ libRGB.walkRGBImageArray = (newImage: ImageData, option: string, callback: any) 
 };
 
 libRGB.handleRGBFilter = (imageData: ImageData, option: string, callback: any) => {
+  /** 
+   * checkOptions  checks to see if option if valid, if this fails it returns 
+   *   reload_image.  
+  */
+  const opt = checkOptions(option);
   const width = imageData.width;
   const height = imageData.height;
   const newImage = new ImageData(width, height);
   newImage.data.set(imageData.data);
   
-  const result = libRGB.walkRGBImageArray(newImage, option, callback);
+  const result = libRGB.walkRGBImageArray(newImage, opt, callback);
   
   return callback(result);
 };

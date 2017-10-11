@@ -13,10 +13,17 @@ describe('libTransition transforms the pixle map based on options', () => {
       .toMatchObject(testData.dataArraySquareOneFlip);
   });
 
+  it('libTr.flip, dataArrayOffset flips once, returns flipped object', () => {
+    expect(testData.loopCount(testData.dataArrayOffset, libTr.flip, 1))
+      .toMatchObject(testData.dataArrayOffsetOneFlip);
+  });
+
   it('libTr.flip, dataArrayOffset flips twice, returns matching object', () => {
     expect(testData.loopCount(testData.dataArrayOffset, libTr.flip, 2))
       .toMatchObject(testData.dataArrayOffset);
   });
+
+
 
   it('libTr.rotate will rotate one time and return match to input array', () => {
     expect(testData.loopCount(testData.dataArraySquare, libTr.rotate, 1))

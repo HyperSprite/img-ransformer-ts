@@ -67,6 +67,7 @@ npm run test
 
 ## Notes:
 
+* **Rotate and Flip**: I knew there was a better way to do the Rotate and Flip a rectangle than the solution I had. Kept thinking it was a matter of picking the elements and pushing them in but couldn't quite get the formula. Kept working on other things and kept coming back to it. Here is a [stack overflow post](https://stackoverflow.com/questions/34440289/how-can-i-rotate-a-4x8-grid-represented-as-a-single-array-in-javascript) that laid out what I had in mind so I went with it. It also happens to work well for flipping too. My old versions are [here](https://github.com/HyperSprite/img-transformer-ts/blob/87e5f6e66d6ebaa3f9e03edbad293d6bfc5838c7/src/util/lib-transition.ts#L11).
 * I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in [**basic-ts-no-create-react-app**](https://github.com/HyperSprite/img-transformer-ts/tree/basic-ts-no-create-react-app) branch.
 * Random Error: "Cannot find module react" after creating a new app with create-react-app, run ```npm install``` inside the just created dir and it will finish the install properly.
 * Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.

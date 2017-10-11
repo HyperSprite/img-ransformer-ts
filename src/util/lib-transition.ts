@@ -13,21 +13,12 @@ interface iImageData {
  */
 libTr.flip = (imageData: iImageData) => {
   const resArr = [];
-  const rowArr = [];
   const width = imageData.width;
   const height = imageData.height;
   const data = imageData.data;
-
-  let n = data.length;
-  // console.log(' start n --- ', n);
-  for (let i = 0; i < height; i += 1) {
-    rowArr[i] = data.slice(n - width,  n);
-    n -= width;
-    // console.log(' start n --- ', n, i);
-  }
-  for (let i = 0; i < height; i += 1) {
-    for (let j = 0; j < width; j += 1) {
-      resArr.push(rowArr[i][j]);
+  for (let h = height - 1; h >= 0; h -= 1) {
+    for (let w = 0; w < width; w += 1) {
+      resArr.push(data[h * width + w]);
     }
   }
   return { width, height, data: resArr };
@@ -35,23 +26,17 @@ libTr.flip = (imageData: iImageData) => {
 
 /** 
  * Rotates an Array
+ * 
+ * See notes in readme.md for notes on this new version
  */
 libTr.rotate = (imageData: iImageData) => {
   const resArr = [];
-  const rowArr = [];
   const width = imageData.width;
   const height = imageData.height;
   const data = imageData.data;
-
-  let n = data.length;
-  for (let i = 0; i < height; i += 1) {
-    rowArr[i] = data.slice(n - width,  n);
-    n -= width;
-  }
-
-  for (let i = 0; i < width; i += 1) {
-    for (let j = 0; j < height; j += 1) {
-      resArr.push(rowArr[j][i]);
+  for (let w = 0; w < width; w += 1) {
+    for (let h = height - 1; h >= 0; h -= 1) {
+      resArr.push(data[h * width + w]);
     }
   }
   return { data: resArr, width: height, height: width };

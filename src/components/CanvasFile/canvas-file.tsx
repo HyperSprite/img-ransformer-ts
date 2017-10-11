@@ -7,17 +7,13 @@ export interface CanvasFileProps {
   /** File to render in this Canvas */
   originalFile?: any;
   onCanvasFile: (any: any) => void;
-  /** Incoming image file */
-  droppedFile: string;
-  /** Sync width with ImgTransformer */
-  width: number;
-  /** Sync height with ImgTransformer */
-  height: number;
+  /** Incoming image file name*/
+  droppedFileName: string;
 }
 
 interface CanvasFileState {
   // ctx: CanvasRenderingContext2D;
-  droppedFile: string;
+  droppedFileName: string;
   width: number;
   height: number;
   imageReady: boolean;
@@ -26,11 +22,12 @@ interface CanvasFileState {
 class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
   public props: CanvasFileProps;
   public state: CanvasFileState;
+  private canvasFileContainer: HTMLDivElement;
   private canvasFile: HTMLCanvasElement;
   constructor(props: CanvasFileProps) {
     super(props);
     this.state = {
-      droppedFile: '',
+      droppedFileName: '',
       width: 300,
       height: 300,
       imageReady: false,
@@ -44,8 +41,6 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     imageObject.src = this.props.originalFile;
     imageObject.onload = () => {
       this.setState({
-        width: this.props.width,
-        height: this.props.height,
         imageReady: true,
       });
       // scaling image to fit canvas
@@ -61,20 +56,21 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
   }
 
   componentDidMount() {
+    const setWidth = this.canvasFileContainer.clientWidth;
     this.setState(
       {
-        droppedFile: this.props.droppedFile,
-        width: this.props.width,
-        height: this.props.height,
+        droppedFileName: this.props.droppedFileName,
+        width: setWidth,
+        height: setWidth,
       },
       this.renderCanvas);
   }
 
   componentDidUpdate() {
-    if (this.state.droppedFile !== this.props.droppedFile) {
+    if (this.state.droppedFileName !== this.props.droppedFileName) {
       this.setState(
         {
-          droppedFile: this.props.droppedFile,
+          droppedFileName: this.props.droppedFileName,
           imageReady: false,
         },
         this.renderCanvas,
@@ -86,8 +82,12 @@ class CanvasFile extends React.Component<CanvasFileProps | CanvasFileState> {
     return (
       <Container textAlign="center">
         <h3>Original</h3>
-        <div>
-          <canvas ref={c => this.canvasFile = c} width={this.state.width} height={this.state.height} />
+        <div ref={c => this.canvasFileContainer = c}>
+          <canvas
+            ref={c => this.canvasFile = c}
+            width={this.state.width}
+            height={this.state.height}
+          />
         </div>
       </Container>
     );

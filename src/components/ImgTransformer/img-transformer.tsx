@@ -17,7 +17,7 @@ export interface Props {}
 export interface State {
   originalFile: any;
   /** File from the DropButton component */
-  droppedFile: string;
+  droppedFileName: string;
   /** Image data from CanvasFile to CanvasStreamed */
   streamedFile: ImageData | undefined | any;
   /** Pristien Canvas Image */
@@ -36,7 +36,7 @@ class ImgTransformer extends React.Component<Props, State>
     super(props);
     this.state = {
       originalFile: undefined,
-      droppedFile: undefined,
+      droppedFileName: undefined,
       streamedFile: undefined,
       pristineFile: undefined,
       width: 350,
@@ -50,11 +50,11 @@ class ImgTransformer extends React.Component<Props, State>
   }
 
   componentWillMount() {
-    this.setState({ originalFile: ImageFile, droppedFile: DEFAULT_IMAGE_NAME });
+    this.setState({ originalFile: ImageFile, droppedFileName: DEFAULT_IMAGE_NAME });
   }
 
   setImage(reader: FileReader, file: File) {
-    this.setState({ originalFile: reader.result, droppedFile: file.name });
+    this.setState({ originalFile: reader.result, droppedFileName: file.name });
   }
 
   handleImageSelect(accepted: File) {
@@ -109,28 +109,28 @@ class ImgTransformer extends React.Component<Props, State>
   }
   
   render() {
-    const { droppedFile, width, height } = this.state;
-    const imageTitle = droppedFile !== DEFAULT_IMAGE_NAME ? droppedFile : '';
+    const { droppedFileName } = this.state;
+    const imageTitle = droppedFileName !== DEFAULT_IMAGE_NAME ? droppedFileName : '';
     
     return (
       <div>
         <HeaderBlock title={imageTitle} />
-        <div className="it-main">
-          <Grid stackable columns={2} >
-            <Grid.Column>
+
+          <Grid stackable padded columns={4}>
+            <Grid.Column width={1} />
+            <Grid.Column width={7} >
               <CanvasFile
-                width={width}
-                height={height}
                 originalFile={this.state.originalFile}
-                droppedFile={this.state.droppedFile}
+                droppedFileName={this.state.droppedFileName}
                 onCanvasFile={this.handleCanvasFileToArray}
               />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column width={7} >
               <CanvasStream
                 streamedFile={this.state.streamedFile}
               />
             </Grid.Column>
+            <Grid.Column width={1} />
           </Grid>
           <Grid>
             <Grid.Row>
@@ -146,7 +146,6 @@ class ImgTransformer extends React.Component<Props, State>
               <Grid.Column width={2} />
             </Grid.Row>
           </Grid>
-        </div>
       </div>
     );
   }

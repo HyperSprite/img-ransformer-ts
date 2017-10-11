@@ -17,7 +17,7 @@ const HeaderBlock: React.StatelessComponent<Props | {}> = ({
 }: Props) => (
 
   <Header as="h1" block >
-    {`Img Transformer ${title && ' - ' + title}`}
+    {`Img Transformer`}
   </Header>
 );
 

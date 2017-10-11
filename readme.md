@@ -1,31 +1,8 @@
 # Image Transformer Project
 
+An Image Transformation Micro Library with reference Docs that this web app uses can be found in: [/src/util](https://github.com/HyperSprite/img-transformer-ts/tree/master/src/util).
+
 This is a create-react-app/typescript project configuration and VS Code setup.
-
-> I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
-
-## Working:
-
-* TSlint is working with AirBnB style guide, properly producing both type and formatting errors when needed.
-* Webpack is bundling all TS files into a single bundle. Does not do hot reloading.
-* Jest testing is working.
-* Single pixel RGB to Greyscale function.
-* Web page displays with CSS and React connected.
-* Mock up complete using Semantic-ui.
-* Select using data from lib.greyFilter for values.
-* Drop or click "Select File" button working using Dropzone.
-* Load Original Canvas with chosen image, Load Transformed Canvas with copy for Original Canvas.
-* Apply a filter to Transformed Canvas.
-* Wire up "Reset Image" button to undo filters.
-* Build a function to take array of image RGB values and run transformations from the transformation lib.
-* Build, document and test API for transformations lib.
-* Build, document and test a user interface.
-
-## Open Tasks:
-
-* Wire up "Save" button.
-* Scale Canvas to fit parent div.
-* Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.  
 
 ## Install and run:
 
@@ -43,7 +20,7 @@ npm run dev
 Tests
 ```js
 npm run test
-``` 
+```
 
 ## Dependencies:
 
@@ -62,6 +39,32 @@ npm run test
 ## Mock up
 ![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)
 
+> I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
+
+## Working:
+
+* TSlint is working with AirBnB style guide, properly producing both type and formatting errors when needed.
+* Webpack is bundling all TS files into a single bundle. Does not do hot reloading.
+* Jest testing is working.
+* Single pixel RGB to Greyscale function.
+* Web page displays with CSS and React connected.
+* Mock up complete using Semantic-ui.
+* Select using data from lib.greyFilter for values.
+* Drop or click "Select File" button working using Dropzone.
+* Load Original Canvas with chosen image, Load Transformed Canvas with copy for Original Canvas.
+* Apply a filter to Transformed Canvas.
+* Wire up "Reset Image" button to undo filters.
+* Build a function to take array of image RGB values and run transformations from the transformation lib.
+* Build, document and test API for transformations lib.
+* Build a user interface.
+* Scale Canvas to fit parent div.
+
+## Open Tasks:
+
+* Add tests for user interface.
+* Wire up "Save" button.
+* Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.  
+
 ## Notes:
 
 * I originally setup a more basic dev/test environment. Since the project allows for external modules to be used I decided to move this project to Create React App with TS. The original configuration is in [**basic-ts-no-create-react-app**](https://github.com/HyperSprite/img-transformer-ts/tree/basic-ts-no-create-react-app) branch.
@@ -69,4 +72,4 @@ npm run test
 * Decisions: Use Semantic-ui, been wanting to try this component library and since this project only has a few components (at least on my sketch), this seems like a good time. Another regarding this if to use the CDN version or import the CSS. In this case, I am going with the CDN to keep the bundle size as small as possible.
 * Random Error: import fails with 'no default export' was resolved by updating tsconfig with ```"allowSyntheticDefaultImports": true,``` see [import fails with 'no default export' #8](https://github.com/Microsoft/TypeScript-React-Starter/issues/8)
 * removed ```"tslint-react",``` from tslint rules as it was redundant.
-* VS Code search... if there is one thing that is bugging me it's the search dialog boxes. :) 
+* VS Code search... if there is one thing that is bugging me it's the search dialog boxes. :)

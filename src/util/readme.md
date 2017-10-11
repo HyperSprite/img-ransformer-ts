@@ -34,11 +34,9 @@ Every four elements represents one pixel and all of the elements are in a single
  * ```greyscale_luminosity``` : Greyscale Luminosity uses a Blue bias when calculating the RGB.
  * ```greyscale_red_filter``` : Greyscal Red Filter uses a Red bias, ideal for for landscapes.
  * ```tint_vintage_filter``` : Tint Vintage uses the Greyscale Average values and then boosts R and G.  
- * ```reload_image``` : Reload passes all of the pixels through unmodified.
+ * ```reload_image``` : Reloads the current working image, removing all filters and transitions.
 
 
 * Transition
  * ```flip``` : Reverses the order of the [RGBA] sets to flip the image.
- * ```rotate``` : Rotates the [RGBA] sets 90 degrees. Note that Rotate does not require the image be square, it will rotate and return an ImageData with the width and height fields adjusted. Keep this in mind if you are placing your image on a rectangle.
-
-
+ * ```rotate``` : Rotates the [RGBA] sets 90 degrees. Although the demo app provides a square canvas, note that Rotate does not require the image be square, it will rotate and return an ImageData with the width and height fields adjusted. Keep this in mind if you are placing your image on a rectangle.

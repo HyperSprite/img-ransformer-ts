@@ -78,6 +78,13 @@ export default {
   errorNoCallback: {
     error: 'no callback function found',
   },
+  testCategoty: {
+    someCategory: (f: any) => (f),
+  },
+  testOptionObj: {
+    someOption: 'someOption',
+  },
+
   loopCount: (data: any, inputFunc: any, count: number) => {
     let loopData = data;
     for (let i = 0; i < count; i += 1) {

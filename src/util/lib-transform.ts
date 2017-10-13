@@ -1,3 +1,4 @@
+import libLgt from './lib-light';
 import libRGB from './lib-rgb-filter';
 import libTr from './lib-transition';
 
@@ -19,15 +20,33 @@ const capAndSplit = (word: string) => {
  * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
  */
 
-lib.optionValuesRGB = () => Object.keys(libRGB.rgbFilter).map((oV) => {
+lib.category = {
+  lights: libLgt.lights,
+  rgbs: libRGB.rgbFilter,
+  transitions: libTr.transitions,
+};
+
+ /** For checking if an optin exists,
+  *   If no defaultOption and checkOption does not exist on the filter object
+  *     returns string 'noOption', can be used to test if an option is availible.
+  *   If an option is on the filter object, it is tested to make sure it is a function:
+  *     true, returns the function name.
+  *     false, returns default option.
+  */
+lib.checkOptions = (category: string, checkOption: string, defaultOption: string) => {
+  let apiOptionCheck = defaultOption || 'noOption';
+  apiOptionCheck = category || 'noCategory';
+  
+  const answer = lib.category[category].hasOwnProperty(checkOption);
+  return (answer && typeof [category][checkOption] === 'function') ? 
+  lib.category[checkOption][checkOption] : apiOptionCheck;
+};
+
+lib.optionValues = (category: string) => Object.keys(lib.category[category]).map((oV) => {
   return { key: oV, value: oV, text: capAndSplit(oV) };
 });
 
-lib.optionValuesTransition = () => Object.keys(libTr.transitions).map((oV) => {
-  return { key: oV, value: oV, text: capAndSplit(oV) };
-});
-
-lib.transoform = (imageData: ImageData, category: string, option: string, cb: any)  => {
+lib.transform = (imageData: ImageData, category: string, option: string, cb: any)  => {
   /** 
    * Here we need to test our args for validity 
   */
@@ -47,11 +66,14 @@ lib.transoform = (imageData: ImageData, category: string, option: string, cb: an
     console.log({ error: 'transform - invalid ImageData format.' });
     return cb({ error: 'transform - invalid ImageData format.' });
   }
-
+  console.log('swtich', category);
   switch (category) {
-    case ('rgb'):
+    
+    case ('lights'):
+      return libLgt.handleLight(imageData, option, cb);
+    case ('rgbs'):
       return libRGB.handleRGBFilter(imageData, option, cb);
-    case ('transition'):
+    case ('transitions'):
       return libTr.handleTransition(imageData, option, cb);
     default :
       console.log({ error: 'transform: invalid category' });

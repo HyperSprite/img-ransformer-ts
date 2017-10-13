@@ -27,7 +27,7 @@ libTr.flip = (imageData: iImageData) => {
 /** 
  * Rotates an Array
  * 
- * See notes in readme.md for notes on this new version
+ * See notes in readme.md about this new version
  */
 libTr.rotate = (imageData: iImageData) => {
   const resArr = [];
@@ -42,11 +42,21 @@ libTr.rotate = (imageData: iImageData) => {
   return { data: resArr, width: height, height: width };
 };
 
+
 libTr.transitions = {
   flip: 'flip',
   rotate: 'rotate',
 };
 
+
+libTr.checkObjTransitions = (checkProp: string) => {
+  let result = false;
+  const answer = libTr.transitions.hasOwnProperty(checkProp);
+  if (answer) {
+    result = libTr.transitions[checkProp];
+  }
+  return result;
+};
 /**
  *  Transition creates an array of [[RGBA]]
  *    so each pixle can be manipulated as a unit
@@ -56,7 +66,8 @@ libTr.handleTransition = (imageData: iImageData, option: string, callback: any) 
   /**
    * Test for option, defaults to rotate.
    */
-  const opt = libTr.transitions[option] || 'rotate';
+  
+  const opt = libTr.checkObjTransitions(option) || 'rotate';
 
   /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);

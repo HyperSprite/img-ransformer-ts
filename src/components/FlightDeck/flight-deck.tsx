@@ -6,24 +6,15 @@ import DropdownOptions from '../DropdownOptions';
 import lib from '../../util/lib-transform';
 import './style.css';
 
+const DropdownSelect = (props: any) => (
+  <DropdownOptions
+    placeholder={props.placeholder}
+    onChange={props[props.opt]}
+    options={lib.optionValues(props.opt)}
+  />
+);
+
 const FlightDeck = (props: any) => {
-
-  const RGBFilter = () => (
-    <DropdownOptions
-      placeholder="Color Filters"
-      onChange={props.rgbFilterOnChange}
-      options={lib.optionValuesRGB()}
-    />
-  );
-
-  const Transition = () => (
-    <DropdownOptions
-      placeholder="Transitions"
-      onChange={props.transitionOnChange}
-      options={lib.optionValuesTransition()}
-    />
-  );
-
 
   // TODO Save Image feature.
   return (
@@ -35,10 +26,13 @@ const FlightDeck = (props: any) => {
         </Grid.Column>
         <Grid.Column width={8}>
           <Grid.Row>
-            <RGBFilter />
+            <DropdownSelect {...props} opt="rgbs" placeholder="Color" />
           </Grid.Row>
           <Grid.Row>
-            <Transition />
+            <DropdownSelect {...props} opt="transitions" placeholder="Transition" />
+          </Grid.Row>
+          <Grid.Row>
+            <DropdownSelect {...props} opt="lights" placeholder="Light" />
           </Grid.Row>
         </Grid.Column>
         <Grid.Column width={4}>

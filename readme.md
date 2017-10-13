@@ -39,7 +39,7 @@ npm run test
 ## Mock up
 ![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)
 
-> I normally use Atom with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
+> I normally use Atom with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
 
 ## Working:
 
@@ -61,9 +61,11 @@ npm run test
 
 ## Open Tasks:
 
+* Add **Lighting** category and options. Imagine this as transforming all pixels based on a percent but not changing the color value. Would work like: ```lib.transform(imageData, light, darken_plus_one, cb);```
 * Add tests for user interface.
 * Wire up "Save" button.
-* Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.  
+* Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.
+* Add Bench marking for lib.
 
 ## Notes:
 

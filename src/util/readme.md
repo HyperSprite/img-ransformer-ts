@@ -2,7 +2,7 @@
 
 Entry point:
 ```js
-lib.transoform(imageData, category, option, cb);
+lib.transform(imageData, category, option, cb);
 ```
 
 Returns an ImageData object.

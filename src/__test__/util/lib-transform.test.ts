@@ -10,13 +10,13 @@ describe('lib.optionValuesRGB returns an array of options for libRGB.rgbFilter.'
   });
 });
 
-describe('lib.transoform various failures.', () => {
+describe('lib.transform various failures.', () => {
   it('No parmaeters passed should expect "error" via callback check', () => {
-    expect(lib.transoform())
+    expect(lib.transform())
       .toMatchObject(testData.errorNoCallback);
   });
   it('No parmaeters passed should expect "error" via callback check', () => {
-    expect(lib.transoform(testData.imageArraySquare, 'foo', 'baz', ((cb: any) => cb)))
+    expect(lib.transform(testData.imageArraySquare, 'foo', 'baz', ((cb: any) => cb)))
       .toMatchObject(testData.imageArraySquare);
   });
 });

@@ -74,7 +74,7 @@ class ImgTransformer extends React.Component<Props, State>
         this.state.streamedFile;
       this.setState({
         pristine: false,
-        streamedFile: lib.transoform(
+        streamedFile: lib.transform(
           imageData,
           'rgb',
           data.value,
@@ -89,7 +89,7 @@ class ImgTransformer extends React.Component<Props, State>
 
       this.setState({
         pristine: false,
-        streamedFile: lib.transoform(
+        streamedFile: lib.transform(
           imageData,
           'transition',
           data.value,

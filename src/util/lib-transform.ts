@@ -27,7 +27,7 @@ lib.optionValuesTransition = () => Object.keys(libTr.transitions).map((oV) => {
   return { key: oV, value: oV, text: capAndSplit(oV) };
 });
 
-lib.transoform = (imageData: ImageData, category: string, option: string, cb: any)  => {
+lib.transform = (imageData: ImageData, category: string, option: string, cb: any)  => {
   /** 
    * Here we need to test our args for validity 
   */

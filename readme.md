@@ -39,7 +39,7 @@ npm run test
 ## Mock up
 ![Img Transformer Mock Up](https://raw.githubusercontent.com/HyperSprite/img-transformer-ts/master/public/assets/img-transformer-mockup.png)
 
-> I normally use Atom and with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
+> I normally use Atom with the Nuclide plugin (facebook dev environment). People keep telling me how great VS Code is and this seemed like a great opportunity to try it with the TypeScript, which appears to have an entire *alternate universe* ecosystem to the ES2015+ JavaScript one.
 
 ## Working:
 

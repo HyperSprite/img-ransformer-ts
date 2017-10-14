@@ -137,9 +137,10 @@ class ImgTransformer extends React.Component<Props, State>
                 <FlightDeck
                   dropped={this.handleImageSelect}
                   lights={this.handleLightOnChange}
-                  rgb={this.handleRGBFilterOnChange}
-                  transition={this.handleTransitionOnChange}
+                  rgbs={this.handleRGBFilterOnChange}
+                  transitions={this.handleTransitionOnChange}
                   pristine={this.state.pristine}
+                  optionValues={lib.optionValues}
                 />
               </Grid.Column>
               <Grid.Column width={2} />

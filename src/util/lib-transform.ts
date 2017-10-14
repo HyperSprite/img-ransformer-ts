@@ -20,7 +20,7 @@ const capAndSplit = (word: string) => {
  * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
  */
 
-lib.category = {
+lib.categories = {
   lights: libLgt.lights,
   rgbs: libRGB.rgbFilter,
   transitions: libTr.transitions,
@@ -34,15 +34,14 @@ lib.category = {
   *     false, returns default option.
   */
 lib.checkOptions = (category: string, checkOption: string, defaultOption: string) => {
-  let apiOptionCheck = defaultOption || 'noOption';
-  apiOptionCheck = category || 'noCategory';
-  
-  const answer = lib.category[category].hasOwnProperty(checkOption);
-  return (answer && typeof [category][checkOption] === 'function') ? 
-  lib.category[checkOption][checkOption] : apiOptionCheck;
+  if (!category || !lib.categories[category]) return defaultOption;
+  if (!checkOption || lib.categories[category].hasOwnProperty(checkOption)) {
+    return lib.categories[category][checkOption];
+  }
+  return defaultOption;
 };
 
-lib.optionValues = (category: string) => Object.keys(lib.category[category]).map((oV) => {
+lib.optionValues = (category: string) => Object.keys(lib.categories[category]).map((oV) => {
   return { key: oV, value: oV, text: capAndSplit(oV) };
 });
 
@@ -66,7 +65,6 @@ lib.transform = (imageData: ImageData, category: string, option: string, cb: any
     console.log({ error: 'transform - invalid ImageData format.' });
     return cb({ error: 'transform - invalid ImageData format.' });
   }
-  console.log('swtich', category);
   switch (category) {
     
     case ('lights'):

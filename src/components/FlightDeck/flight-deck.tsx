@@ -3,14 +3,13 @@ import { Button, Grid, Modal } from 'semantic-ui-react';
 
 import DropButton from '../DropButton';
 import DropdownOptions from '../DropdownOptions';
-import lib from '../../util/lib-transform';
 import './style.css';
 
 const DropdownSelect = (props: any) => (
   <DropdownOptions
     placeholder={props.placeholder}
     onChange={props[props.opt]}
-    options={lib.optionValues(props.opt)}
+    options={props.optionValues(props.opt)}
   />
 );
 
@@ -25,14 +24,14 @@ const FlightDeck = (props: any) => {
           <DropButton {...props} />
         </Grid.Column>
         <Grid.Column width={8}>
+        <Grid.Row>
+            <DropdownSelect {...props} opt="lights" placeholder="Light" />
+          </Grid.Row>
           <Grid.Row>
             <DropdownSelect {...props} opt="rgbs" placeholder="Color" />
           </Grid.Row>
           <Grid.Row>
             <DropdownSelect {...props} opt="transitions" placeholder="Transition" />
-          </Grid.Row>
-          <Grid.Row>
-            <DropdownSelect {...props} opt="lights" placeholder="Light" />
           </Grid.Row>
         </Grid.Column>
         <Grid.Column width={4}>

@@ -93,8 +93,7 @@ libLgt.lights = {
   lighten_plus_two: 'lighten_plus_two',
   darken_plus_one: 'darken_plus_one',
   darken_plus_two: 'darken_plus_two',
-  broken: 'broken',
-  // vignette: 'vignette',
+  // vignette: 'vignette', // not ready for users
 };
 
 /**
@@ -104,16 +103,13 @@ libLgt.lights = {
  */
 libLgt.handleLight = (imageData: iImageData, option: string, callback: any) => {
   /**
-   * Test for option, defaults to rotate.
+   * Test for option, defaults to darken_plus_two.
    */
-  console.log('handleLight', imageData, option);
-  
   const categoryOption = lib.checkOptions('lights', option, 'darken_plus_two');
-  console.log('opt >>>', categoryOption, option);
   /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);
   /** Uses 'option' to pick transitoin method */
-  const imgArr = categoryOption({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
+  const imgArr = libLgt[categoryOption]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
   /** Creates a new ImageData, from Canvas 2d context */
   const newImage = new ImageData(imgArr.width, imgArr.height);
   /** Flattens the returned array and sets it to newImage */

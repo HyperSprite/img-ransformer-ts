@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import lib from './lib-transform';
+
 const libTr = <any>{};
 
 interface iImageData {
@@ -27,7 +29,7 @@ libTr.flip = (imageData: iImageData) => {
 /** 
  * Rotates an Array
  * 
- * See notes in readme.md for notes on this new version
+ * See notes in readme.md about this new version
  */
 libTr.rotate = (imageData: iImageData) => {
   const resArr = [];
@@ -41,6 +43,7 @@ libTr.rotate = (imageData: iImageData) => {
   }
   return { data: resArr, width: height, height: width };
 };
+
 
 libTr.transitions = {
   flip: 'flip',
@@ -56,12 +59,11 @@ libTr.handleTransition = (imageData: iImageData, option: string, callback: any) 
   /**
    * Test for option, defaults to rotate.
    */
-  const opt = libTr.transitions[option] || 'rotate';
-
+  const categoryOption = lib.checkOptions('transitions', option, 'rotate');
   /** Takes flat array and creates 2 dimensional 4 element array */
   const arrOfRGBs = _.chunk(imageData.data, 4);
   /** Uses 'option' to pick transitoin method */
-  const imgArr = libTr[opt]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
+  const imgArr = libTr[categoryOption]({ width: imageData.width, height: imageData.height, data: arrOfRGBs });
   /** Creates a new ImageData, from Canvas 2d context */
   const newImage = new ImageData(imgArr.width, imgArr.height);
   /** Flattens the returned array and sets it to newImage */

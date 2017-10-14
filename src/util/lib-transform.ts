@@ -1,3 +1,4 @@
+import libLgt from './lib-light';
 import libRGB from './lib-rgb-filter';
 import libTr from './lib-transition';
 
@@ -19,11 +20,28 @@ const capAndSplit = (word: string) => {
  * Form: [{ key: 'red_filter', value: 'red_filter', text: 'Red filter' }] 
  */
 
-lib.optionValuesRGB = () => Object.keys(libRGB.rgbFilter).map((oV) => {
-  return { key: oV, value: oV, text: capAndSplit(oV) };
-});
+lib.categories = {
+  lights: libLgt.lights,
+  rgbs: libRGB.rgbFilter,
+  transitions: libTr.transitions,
+};
 
-lib.optionValuesTransition = () => Object.keys(libTr.transitions).map((oV) => {
+ /** For checking if an optin exists,
+  *   If no defaultOption and checkOption does not exist on the filter object
+  *     returns string 'noOption', can be used to test if an option is availible.
+  *   If an option is on the filter object, it is tested to make sure it is a function:
+  *     true, returns the function name.
+  *     false, returns default option.
+  */
+lib.checkOptions = (category: string, checkOption: string, defaultOption: string) => {
+  if (!category || !lib.categories[category]) return defaultOption;
+  if (!checkOption || lib.categories[category].hasOwnProperty(checkOption)) {
+    return lib.categories[category][checkOption];
+  }
+  return defaultOption;
+};
+
+lib.optionValues = (category: string) => Object.keys(lib.categories[category]).map((oV) => {
   return { key: oV, value: oV, text: capAndSplit(oV) };
 });
 
@@ -47,11 +65,13 @@ lib.transform = (imageData: ImageData, category: string, option: string, cb: any
     console.log({ error: 'transform - invalid ImageData format.' });
     return cb({ error: 'transform - invalid ImageData format.' });
   }
-
   switch (category) {
-    case ('rgb'):
+    
+    case ('lights'):
+      return libLgt.handleLight(imageData, option, cb);
+    case ('rgbs'):
       return libRGB.handleRGBFilter(imageData, option, cb);
-    case ('transition'):
+    case ('transitions'):
       return libTr.handleTransition(imageData, option, cb);
     default :
       console.log({ error: 'transform: invalid category' });

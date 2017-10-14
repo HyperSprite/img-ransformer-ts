@@ -58,10 +58,12 @@ npm run test
 * Build, document and test API for transformations lib.
 * Build a user interface.
 * Scale Canvas to fit parent div.
+* Added **Lighting** category and options. Transforming all pixels based on a percent but not changing the color value. Would work like: ```lib.transform(imageData, light, darken_plus_one, cb);```
+* Moved reference to 'lib' out of FlightDeck and into Img-Transformer to keep the import localized to the main app and out of sub components.
 
 ## Open Tasks:
 
-* Add **Lighting** category and options. Imagine this as transforming all pixels based on a percent but not changing the color value. Would work like: ```lib.transform(imageData, light, darken_plus_one, cb);```
+* Add Lights testing and document usage.
 * Add tests for user interface.
 * Wire up "Save" button.
 * Consider adding much larger hidden canvas for actual image processing while displaying small canvas to users.

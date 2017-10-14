@@ -45,6 +45,7 @@ class ImgTransformer extends React.Component<Props, State>
     };
     this.handleImageSelect = this.handleImageSelect.bind(this);
     this.handleCanvasFileToArray = this.handleCanvasFileToArray.bind(this);
+    this.handleLightOnChange = this.handleLightOnChange.bind(this);
     this.handleTransitionOnChange = this.handleTransitionOnChange.bind(this);
     this.handleRGBFilterOnChange = this.handleRGBFilterOnChange.bind(this);
   }
@@ -67,7 +68,7 @@ class ImgTransformer extends React.Component<Props, State>
     }
   }
 
-  handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+  handleDropdownOnChange(option: string, data: any) {
     if (this.state.streamedFile) {
       const imageData = data.value === 'reload_image' ?
         this.state.pristineFile : 
@@ -76,17 +77,18 @@ class ImgTransformer extends React.Component<Props, State>
         pristine: false,
         streamedFile: lib.transform(
           imageData,
-          'rgb',
+          option,
           data.value,
           (r: any) => r),
       });
     }
   }
 
-  handleTransitionOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
-    if (this.state.streamedFile) {
-      const imageData = this.state.streamedFile;
+  handleLightOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+    this.handleDropdownOnChange('lights', data);
+  }
 
+<<<<<<< HEAD
       this.setState({
         pristine: false,
         streamedFile: lib.transform(
@@ -96,6 +98,14 @@ class ImgTransformer extends React.Component<Props, State>
           (r: any) => r),
       });
     }
+=======
+  handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+    this.handleDropdownOnChange('rgbs', data);
+  }
+
+  handleTransitionOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
+    this.handleDropdownOnChange('transitions', data);
+>>>>>>> add-lighting-category
   }
 
   handleCanvasFileToArray(CanvasFileImageData: any) {
@@ -138,9 +148,11 @@ class ImgTransformer extends React.Component<Props, State>
               <Grid.Column width={12}>
                 <FlightDeck
                   dropped={this.handleImageSelect}
-                  transitionOnChange={this.handleTransitionOnChange}
-                  rgbFilterOnChange={this.handleRGBFilterOnChange}
+                  lights={this.handleLightOnChange}
+                  rgbs={this.handleRGBFilterOnChange}
+                  transitions={this.handleTransitionOnChange}
                   pristine={this.state.pristine}
+                  optionValues={lib.optionValues}
                 />
               </Grid.Column>
               <Grid.Column width={2} />

@@ -15,6 +15,10 @@ const DropdownSelect = (props: any) => (
 
 const FlightDeck = (props: any) => {
 
+  const LightsDrop = () => <DropdownSelect {...props} opt="lights" placeholder="Light" />;
+  const ColorDrip = () => <DropdownSelect {...props} opt="rgbs" placeholder="Color" />;
+  const TransitionDrop = () => <DropdownSelect {...props} opt="transitions" placeholder="Transition" />;
+
   // TODO Save Image feature.
   return (
     <div className="flight-deck-main">
@@ -24,14 +28,14 @@ const FlightDeck = (props: any) => {
           <DropButton {...props} />
         </Grid.Column>
         <Grid.Column width={8}>
-        <Grid.Row>
-            <DropdownSelect {...props} opt="lights" placeholder="Light" />
+          <Grid.Row>
+            <LightsDrop />
           </Grid.Row>
           <Grid.Row>
-            <DropdownSelect {...props} opt="rgbs" placeholder="Color" />
+            <ColorDrip />
           </Grid.Row>
           <Grid.Row>
-            <DropdownSelect {...props} opt="transitions" placeholder="Transition" />
+            <TransitionDrop />
           </Grid.Row>
         </Grid.Column>
         <Grid.Column width={4}>

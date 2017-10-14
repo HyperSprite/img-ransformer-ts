@@ -31,16 +31,6 @@ describe('lib.transform various failures.', () => {
       .toBe('rotate');
   });
 
-<<<<<<< HEAD
-describe('lib.transform various failures.', () => {
-  it('No parmaeters passed should expect "error" via callback check', () => {
-    expect(lib.transform())
-      .toMatchObject(testData.errorNoCallback);
-  });
-  it('No parmaeters passed should expect "error" via callback check', () => {
-    expect(lib.transform(testData.imageArraySquare, 'foo', 'baz', ((cb: any) => cb)))
-      .toMatchObject(testData.imageArraySquare);
-=======
   it('lib.transform, no parmaeters passed should expect "error" via callback check', () => {
     expect(lib.transform())
       .toMatchObject(tD.errorNoCallback);
@@ -48,7 +38,6 @@ describe('lib.transform various failures.', () => {
   it('lib.transform, incorrect category and option, will pass imageData right through', () => {
     expect(lib.transform(tD.imageArraySquare, 'foo', 'baz', ((cb: any) => cb)))
       .toMatchObject(tD.imageArraySquare);
->>>>>>> add-lighting-category
   });
 });
 

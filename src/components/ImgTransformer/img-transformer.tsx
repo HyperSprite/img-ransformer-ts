@@ -88,24 +88,12 @@ class ImgTransformer extends React.Component<Props, State>
     this.handleDropdownOnChange('lights', data);
   }
 
-<<<<<<< HEAD
-      this.setState({
-        pristine: false,
-        streamedFile: lib.transform(
-          imageData,
-          'transition',
-          data.value,
-          (r: any) => r),
-      });
-    }
-=======
   handleRGBFilterOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
     this.handleDropdownOnChange('rgbs', data);
   }
 
   handleTransitionOnChange(event: React.SyntheticEvent<HTMLDivElement>, data: any) {
     this.handleDropdownOnChange('transitions', data);
->>>>>>> add-lighting-category
   }
 
   handleCanvasFileToArray(CanvasFileImageData: any) {
